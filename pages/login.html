@@ -36,7 +36,7 @@
 
             <div id="login-error" class="hidden mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-700" role="alert"></div>
 
-            <form id="login-form" class="space-y-5" action="#" method="post">
+            <form id="login-form" class="space-y-5">
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Correo electrónico</label>
                     <input type="email" id="email" name="email" required placeholder="tu@email.com"
@@ -76,6 +76,9 @@
     </main>
 
     <script src="../js/common.js"></script>
-    <script src="../js/auth.js"></script> 
+    <script type="module">
+        import { handleLogin } from '../js/auth.js';
+        document.getElementById('login-form').addEventListener('submit', handleLogin);
+    </script>
 </body>
 </html>
