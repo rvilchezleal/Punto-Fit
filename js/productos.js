@@ -33,9 +33,9 @@ function updateHeaderOnScroll() {
     header.classList.toggle('scrolled', window.scrollY > 10);
 }
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
     initCart();
     updateHeaderOnScroll();
     window.addEventListener('scroll', updateHeaderOnScroll);
     renderProducts();
-};
+});

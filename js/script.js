@@ -81,13 +81,13 @@ function renderBestsellers() {
     });
 }
 
-window.onload = () => {
+document.addEventListener('DOMContentLoaded', () => {
     initCart();
     updateHeaderOnScroll();
     window.addEventListener('scroll', updateHeaderOnScroll);
     initHeroCarousel();
     renderBestsellers();
-};
+});
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {

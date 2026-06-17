@@ -24,4 +24,25 @@ function initDarkMode() {
     applyDarkMode(savedDarkMode);
 }
 
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('mobile-menu-icon');
+    if (!menu || !icon) return;
+
+    const isOpen = !menu.classList.contains('hidden');
+    menu.classList.toggle('hidden', isOpen);
+    icon.classList.toggle('fa-bars', isOpen);
+    icon.classList.toggle('fa-times', !isOpen);
+}
+
+function closeMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('mobile-menu-icon');
+    if (!menu || !icon) return;
+
+    menu.classList.add('hidden');
+    icon.classList.remove('fa-times');
+    icon.classList.add('fa-bars');
+}
+
 document.addEventListener('DOMContentLoaded', initDarkMode);

@@ -39,10 +39,17 @@
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </button>
-                <button class="md:hidden text-gray-700">
-                    <i class="fas fa-bars text-xl"></i>
+                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden text-gray-700 hover:text-puntofit-red transition" aria-label="Abrir menú">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-xl"></i>
                 </button>
             </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-3 space-y-3">
+            <a href="index.html#home" onclick="closeMobileMenu()" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Inicio</a>
+            <a href="pages/productos.html" onclick="closeMobileMenu()" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Productos</a>
+            <a href="index.html#contacto" onclick="closeMobileMenu()" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Ubicación</a>
+            <a href="pages/login.html" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Iniciar sesión</a>
         </div>
     </nav>
 
