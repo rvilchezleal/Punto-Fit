@@ -24,7 +24,7 @@ function toggleCart() {
 }
 
 function addToCart(id) {
-    const product = products.find(p => p.id === id);
+    const product = loadProducts().find(p => p.id === id);
     if (!product) return;
 
     const inCart = cart.find(item => item.id === id);

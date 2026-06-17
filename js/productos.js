@@ -4,7 +4,8 @@ function renderProducts(filter = 'all') {
 
     grid.innerHTML = '';
 
-    const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
+    const productList = loadProducts();
+    const filtered = filter === 'all' ? productList : productList.filter(p => p.category === filter);
 
     filtered.forEach(p => {
         grid.innerHTML += getProductCardHTML(p);

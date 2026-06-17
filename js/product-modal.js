@@ -5,7 +5,7 @@ function getImagePath(src) {
 }
 
 function openProductModal(id) {
-    const product = products.find(p => p.id === id);
+    const product = loadProducts().find(p => p.id === id);
     const modal = document.getElementById('product-modal');
     if (!product || !modal) return;
 

@@ -4,6 +4,7 @@ const products = [
         name: "Whey Protein Isolate",
         category: "proteina",
         price: 45.99,
+        stock: 45,
         img: "img/wheyprotein.webp",
         brand: "Optimum Nutrition",
         description: "Proteína de suero aislada de alta pureza, baja en grasa y carbohidratos. Ideal para quienes buscan recuperación rápida y definición muscular.",
@@ -20,6 +21,7 @@ const products = [
         name: "Creatina Monohidratada",
         category: "creatina",
         price: 29.99,
+        stock: 8,
         img: "img/cratina.jpg",
         brand: "MuscleTech",
         description: "Creatina monohidratada micronizada de alta calidad. Aumenta la fuerza, la potencia y el rendimiento en entrenamientos de alta intensidad.",
@@ -36,6 +38,7 @@ const products = [
         name: "BCAA Amino Energy",
         category: "aminoacidos",
         price: 24.50,
+        stock: 22,
         img: "img/bcaa.png",
         brand: "ON",
         description: "Fórmula de aminoácidos ramificados (BCAA) con energía adicional. Perfecta para entrenamientos largos o en ayunas.",
@@ -52,6 +55,7 @@ const products = [
         name: "C4 Pre-Workout",
         category: "pre-workout",
         price: 35.00,
+        stock: 15,
         img: "img/prework.webp",
         brand: "Cellucor",
         description: "Pre-entreno de referencia con cafeína, beta-alanina y óxido nítrico. Diseñado para máxima energía, enfoque y pump muscular.",
@@ -68,6 +72,7 @@ const products = [
         name: "ISO 100 Protein",
         category: "proteina",
         price: 55.00,
+        stock: 5,
         img: "img/iso100.avif",
         brand: "Dymatize",
         description: "Hidrolizado de proteína de suero 100% ISO. La opción premium para digestión ultrarrápida y máxima pureza proteica.",
@@ -84,6 +89,7 @@ const products = [
         name: "Creatine HCL",
         category: "creatina",
         price: 32.00,
+        stock: 30,
         img: "img/hcl.avif",
         brand: "Kaged Muscle",
         description: "Creatina en forma de clorhidrato, más soluble y con menor retención de agua. Dosis más pequeña con gran efectividad.",
@@ -100,6 +106,7 @@ const products = [
         name: "Mass Gainer Extreme",
         category: "proteina",
         price: 48.00,
+        stock: 18,
         img: "img/gainer.webp",
         brand: "GAT Sport",
         description: "Ganador de peso con alto aporte calórico, proteínas y carbohidratos. Pensado para ectomorfos y quienes buscan subir de volumen.",
@@ -116,6 +123,7 @@ const products = [
         name: "L-Glutamine 5000",
         category: "aminoacidos",
         price: 19.99,
+        stock: 3,
         img: "img/glutamine.jpg",
         brand: "Now Sports",
         description: "L-Glutamina pura en polvo. Aminoácido clave para recuperación, sistema inmune y salud intestinal del atleta.",
@@ -130,9 +138,25 @@ const products = [
 ];
 
 const bestsellerCategories = ['proteina', 'creatina', 'aminoacidos', 'pre-workout'];
+const productsStorageKey = 'puntofit-products';
+
+function loadProducts() {
+    try {
+        const stored = localStorage.getItem(productsStorageKey);
+        if (stored) return JSON.parse(stored);
+    } catch {
+        /* usar catálogo por defecto */
+    }
+    return JSON.parse(JSON.stringify(products));
+}
+
+function saveProducts(productList) {
+    localStorage.setItem(productsStorageKey, JSON.stringify(productList));
+}
 
 function getBestsellers() {
-    return bestsellerCategories.map(cat => products.find(p => p.category === cat)).filter(Boolean);
+    const list = loadProducts();
+    return bestsellerCategories.map(cat => list.find(p => p.category === cat)).filter(Boolean);
 }
 
 const categoryInfo = {
