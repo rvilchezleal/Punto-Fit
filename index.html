@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PuntoFit | Suplementos Deportivos Maracaibo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <nav id="main-header" class="sticky top-0 z-50 bg-white shadow-md border-b-4 border-puntofit-red">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
+                <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 font-semibold text-sm uppercase tracking-wider">
+                <a href="index.html#home" class="hover:text-puntofit-red transition">Inicio</a>
+                <a href="pages/productos.html" class="hover:text-puntofit-red transition">Productos</a>
+                <a href="index.html#contacto" class="hover:text-puntofit-red transition">Ubicación</a>
+            </div>
+
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
+                    <i id="theme-icon" class="fas fa-moon text-xl"></i>
+                </button>
+                <a href="pages/login.html" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-puntofit-red border-2 border-puntofit-red rounded-full transition">
+                    <i class="fas fa-user"></i>
+                    <span>Iniciar sesión</span>
+                </a>
+                <a href="pages/login.html" class="sm:hidden p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Iniciar sesión">
+                    <i class="fas fa-user text-xl"></i>
+                </a>
+                <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-puntofit-red transition">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero-carousel h-[500px] relative overflow-hidden flex items-center justify-center text-center text-white px-4">
+        <div class="hero-carousel__slides" aria-hidden="true">
+            <div class="hero-carousel__slide active">
+                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Gimnasio PuntoFit">
+            </div>
+            <div class="hero-carousel__slide">
+                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop" alt="Entrenamiento intenso">
+            </div>
+            <div class="hero-carousel__slide">
+                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop" alt="Pesas y fuerza">
+            </div>
+            <div class="hero-carousel__slide">
+                <img src="https://images.unsplash.com/photo-1593079831268-3381b0f6f928?q=80&w=1470&auto=format&fit=crop" alt="Suplementos deportivos">
+            </div>
+        </div>
+        <div class="hero-carousel__overlay"></div>
+        <div class="relative z-10 max-w-3xl">
+            <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight uppercase">Entrena <span class="text-puntofit-red">Sin Límites</span></h2>
+            <p class="text-lg md:text-xl mb-8 font-light italic">Los mejores suplementos de Maracaibo al mejor precio. Resultados garantizados.</p>
+            <a href="pages/productos.html" class="bg-puntofit-red hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 uppercase tracking-widest shadow-lg">
+                Ver Catálogo
+            </a>
+        </div>
+    </section>
+
+    <main id="categorias" class="container mx-auto px-4 py-12">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestras <span class="text-puntofit-red">Categorías</span></h2>
+            <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Haz clic en cada tipo de suplemento para conocer sus beneficios y cómo usarlo.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <button type="button" onclick="openCategoryModal('proteina')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
+                    <i class="fas fa-dumbbell text-2xl text-puntofit-red group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Proteínas</h3>
+                <p class="text-sm text-gray-500">Recuperación y crecimiento muscular</p>
+            </button>
+            <button type="button" onclick="openCategoryModal('creatina')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
+                    <i class="fas fa-bolt text-2xl text-puntofit-red group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Creatinas</h3>
+                <p class="text-sm text-gray-500">Fuerza y rendimiento explosivo</p>
+            </button>
+            <button type="button" onclick="openCategoryModal('aminoacidos')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
+                    <i class="fas fa-flask text-2xl text-puntofit-red group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Aminoácidos</h3>
+                <p class="text-sm text-gray-500">Recuperación y resistencia</p>
+            </button>
+            <button type="button" onclick="openCategoryModal('pre-workout')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
+                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
+                    <i class="fas fa-fire text-2xl text-puntofit-red group-hover:text-white transition"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Pre-Entrenos</h3>
+                <p class="text-sm text-gray-500">Energía y enfoque antes de entrenar</p>
+            </button>
+        </div>
+
+        <section id="mas-vendidos" class="mt-16 pt-16 border-t border-gray-200">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestros productos <span class="text-puntofit-red">más vendidos</span></h2>
+                <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Los favoritos de nuestros clientes en Maracaibo. Añádelos al carrito al instante.</p>
+            </div>
+            <div id="bestsellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            </div>
+        </section>
+
+        <div class="text-center mt-12">
+            <a href="pages/productos.html" class="inline-flex items-center gap-2 bg-puntofit-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition uppercase tracking-wider text-sm">
+                <i class="fas fa-store"></i>
+                Ver catálogo completo
+            </a>
+        </div>
+
+        <section id="faq" class="mt-16 pt-16 border-t border-gray-200 max-w-3xl mx-auto w-full">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Preguntas <span class="text-puntofit-red">frecuentes</span></h2>
+                <p class="text-gray-500 mt-3">Resolvemos tus dudas sobre compras, envíos y suplementos.</p>
+            </div>
+
+            <div class="faq-accordion space-y-3">
+                <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>¿Hacen envíos a domicilio en Maracaibo?</span>
+                        <i class="faq-icon fas fa-chevron-down text-puntofit-red shrink-0 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden px-5 pb-4">
+                        <p class="text-gray-600 leading-relaxed">Sí, contamos con servicio de delivery en Maracaibo y zonas cercanas. Al confirmar tu pedido por WhatsApp te indicamos el costo del envío y el tiempo estimado de entrega.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>¿Los productos son 100% originales?</span>
+                        <i class="faq-icon fas fa-chevron-down text-puntofit-red shrink-0 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden px-5 pb-4">
+                        <p class="text-gray-600 leading-relaxed">Todos nuestros suplementos son originales y provienen de distribuidores autorizados. Trabajamos con marcas reconocidas como Optimum Nutrition, MuscleTech, Dymatize y más.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>¿Qué métodos de pago aceptan?</span>
+                        <i class="faq-icon fas fa-chevron-down text-puntofit-red shrink-0 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden px-5 pb-4">
+                        <p class="text-gray-600 leading-relaxed">Aceptamos transferencia bancaria, pago móvil (Pago Móvil), efectivo en tienda y Zelle. Te enviamos los datos de pago al confirmar tu pedido.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>¿Cómo puedo hacer un pedido?</span>
+                        <i class="faq-icon fas fa-chevron-down text-puntofit-red shrink-0 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden px-5 pb-4">
+                        <p class="text-gray-600 leading-relaxed">Agrega los productos al carrito y presiona «Pedir por WhatsApp». También puedes visitarnos en Calle 72 con Av. 10, Maracaibo, o escribirnos directamente al +58 412-1234567.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>¿Cuál suplemento me recomiendan para empezar?</span>
+                        <i class="faq-icon fas fa-chevron-down text-puntofit-red shrink-0 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden px-5 pb-4">
+                        <p class="text-gray-600 leading-relaxed">Depende de tu objetivo: proteína para recuperación muscular, creatina para fuerza, aminoácidos para resistencia o pre-entreno para energía. En tienda te asesoramos sin compromiso según tu rutina y meta.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                    <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
+                        <span>¿Cuál es el horario de la tienda?</span>
+                        <i class="faq-icon fas fa-chevron-down text-puntofit-red shrink-0 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden px-5 pb-4">
+                        <p class="text-gray-600 leading-relaxed">Estamos abiertos de lunes a sábado de 8:00 AM a 7:00 PM. Los domingos permanecemos cerrados, pero puedes escribirnos por WhatsApp y te respondemos lo antes posible.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="product-modal" class="hidden fixed inset-0 z-[85] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeProductModal()"></div>
+        <div class="product-modal-content relative bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeProductModal()" class="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 text-xl text-gray-500 hover:text-puntofit-red shadow transition" aria-label="Cerrar">&times;</button>
+            <div class="product-modal__image">
+                <img id="product-modal-img" src="" alt="" class="product-modal__img">
+            </div>
+            <div class="product-modal__body">
+                <div class="product-modal__header">
+                    <span id="product-modal-brand" class="product-modal__brand"></span>
+                    <h3 id="product-modal-name" class="product-modal__title"></h3>
+                    <span id="product-modal-category" class="product-modal__category"></span>
+                    <p id="product-modal-price" class="product-modal__price"></p>
+                </div>
+                <p id="product-modal-description" class="product-modal__text"></p>
+                <h4 class="product-modal__subtitle">Beneficios</h4>
+                <ul id="product-modal-benefits" class="product-modal__list"></ul>
+                <h4 class="product-modal__subtitle">Modo de uso</h4>
+                <p id="product-modal-usage" class="product-modal__text product-modal__text--last"></p>
+                <button type="button" id="product-modal-add" class="product-modal__btn">
+                    <i class="fas fa-cart-plus"></i>
+                    Añadir al carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="category-modal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeCategoryModal()"></div>
+        <div class="category-modal-content relative bg-white rounded-2xl max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeCategoryModal()" class="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 text-xl text-gray-500 hover:text-puntofit-red shadow transition" aria-label="Cerrar">&times;</button>
+            <div class="category-modal__hero">
+                <div class="category-modal__icon-wrap">
+                    <i id="modal-icon" class="fas fa-dumbbell text-3xl text-puntofit-red"></i>
+                </div>
+                <h3 id="modal-title" class="category-modal__title"></h3>
+            </div>
+            <div class="category-modal__body">
+                <p id="modal-description" class="category-modal__text"></p>
+                <h4 class="category-modal__subtitle">Beneficios</h4>
+                <ul id="modal-benefits" class="category-modal__list"></ul>
+                <h4 class="category-modal__subtitle">Modo de uso</h4>
+                <p id="modal-usage" class="category-modal__text category-modal__text--last"></p>
+                <a href="pages/productos.html" class="category-modal__btn">
+                    Ver productos en tienda
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden transition-opacity"></div>
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[70] translate-x-full cart-sidebar flex flex-col shadow-2xl">
+        <div class="p-6 border-b flex justify-between items-center bg-puntofit-red text-white">
+            <h3 class="text-xl font-bold uppercase tracking-tighter">Tu Pedido</h3>
+            <button onclick="toggleCart()" class="text-2xl">&times;</button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm">
+            <!-- Items del carrito -->
+            <p class="text-gray-500 italic text-center py-10">Tu carrito está vacío, ¡empieza a entrenar duro!</p>
+        </div>
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-bold">Total:</span>
+                <span id="cart-total" class="text-2xl font-extrabold text-puntofit-red">$0.00</span>
+            </div>
+            <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+                <i class="fab fa-whatsapp text-xl"></i>
+                <span>PEDIR POR WHATSAPP</span>
+            </button>
+        </div>
+    </div>
+
+    <footer id="contacto" class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <h4 class="text-2xl font-black mb-6">PUNTO<span class="text-puntofit-red">FIT</span></h4>
+                <p class="text-gray-400 leading-relaxed mb-4">La tienda de suplementos #1 en Maracaibo. Calidad certificada y asesoría profesional para que alcances tu mejor versión.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-puntofit-red transition"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-puntofit-red transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-puntofit-red transition"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Visítanos</h4>
+                <p class="text-gray-400 mb-2"><i class="fas fa-map-marker-alt text-puntofit-red mr-2"></i> Calle 72 con Av. 10, Maracaibo, Zulia.</p>
+                <p class="text-gray-400 mb-2"><i class="fas fa-clock text-puntofit-red mr-2"></i> Lun - Sáb: 8:00 AM - 7:00 PM</p>
+                <p class="text-gray-400"><i class="fas fa-phone text-puntofit-red mr-2"></i> +58 412-1234567</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Información</h4>
+                <ul class="text-gray-400 space-y-2">
+                    <li><a href="#" class="hover:text-white transition">Envíos a Domicilio (Delivery)</a></li>
+                    <li><a href="#" class="hover:text-white transition">Métodos de Pago</a></li>
+                    <li><a href="#" class="hover:text-white transition">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container mx-auto px-4 mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500 italic">
+            © 2024 PuntoFit Maracaibo. Hecho para campeones.
+        </div>
+    </footer>
+
+    <script src="js/common.js"></script>
+    <script src="js/products-data.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/product-modal.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>

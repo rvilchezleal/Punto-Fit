@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos | PuntoFit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <nav id="main-header" class="sticky top-0 z-50 bg-white shadow-md border-b-4 border-puntofit-red">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center space-x-2">
+                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
+                <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
+            </a>
+
+            <div class="hidden md:flex space-x-8 font-semibold text-sm uppercase tracking-wider">
+                <a href="../index.html#home" class="hover:text-puntofit-red transition">Inicio</a>
+                <a href="productos.html" class="text-puntofit-red transition">Productos</a>
+                <a href="../index.html#contacto" class="hover:text-puntofit-red transition">Ubicación</a>
+            </div>
+
+            <div class="flex items-center space-x-3 md:space-x-4">
+                <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
+                    <i id="theme-icon" class="fas fa-moon text-xl"></i>
+                </button>
+                <a href="login.html" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-puntofit-red border-2 border-puntofit-red rounded-full transition">
+                    <i class="fas fa-user"></i>
+                    <span>Iniciar sesión</span>
+                </a>
+                <a href="login.html" class="sm:hidden p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Iniciar sesión">
+                    <i class="fas fa-user text-xl"></i>
+                </a>
+                <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-puntofit-red transition">
+                    <i class="fas fa-shopping-cart text-xl"></i>
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-black uppercase tracking-tight">Catálogo <span class="text-puntofit-red">PuntoFit</span></h1>
+            <p class="text-gray-500 mt-2">Todos nuestros suplementos disponibles en Maracaibo</p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 mb-12">
+            <button type="button" onclick="filterProducts('all', this)" class="category-btn active px-6 py-2 rounded-full border-2 border-puntofit-red bg-puntofit-red text-white font-bold transition">Todos</button>
+            <button type="button" onclick="filterProducts('proteina', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Proteínas</button>
+            <button type="button" onclick="filterProducts('creatina', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Creatinas</button>
+            <button type="button" onclick="filterProducts('aminoacidos', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Aminoácidos</button>
+            <button type="button" onclick="filterProducts('pre-workout', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Pre-Entrenos</button>
+        </div>
+
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        </div>
+    </main>
+
+    <div id="product-modal" class="hidden fixed inset-0 z-[85] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeProductModal()"></div>
+        <div class="product-modal-content relative bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button type="button" onclick="closeProductModal()" class="absolute top-3 right-3 z-10 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 text-xl text-gray-500 hover:text-puntofit-red shadow transition" aria-label="Cerrar">&times;</button>
+            <div class="product-modal__image">
+                <img id="product-modal-img" src="" alt="" class="product-modal__img">
+            </div>
+            <div class="product-modal__body">
+                <div class="product-modal__header">
+                    <span id="product-modal-brand" class="product-modal__brand"></span>
+                    <h3 id="product-modal-name" class="product-modal__title"></h3>
+                    <span id="product-modal-category" class="product-modal__category"></span>
+                    <p id="product-modal-price" class="product-modal__price"></p>
+                </div>
+                <p id="product-modal-description" class="product-modal__text"></p>
+                <h4 class="product-modal__subtitle">Beneficios</h4>
+                <ul id="product-modal-benefits" class="product-modal__list"></ul>
+                <h4 class="product-modal__subtitle">Modo de uso</h4>
+                <p id="product-modal-usage" class="product-modal__text product-modal__text--last"></p>
+                <button type="button" id="product-modal-add" class="product-modal__btn">
+                    <i class="fas fa-cart-plus"></i>
+                    Añadir al carrito
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden transition-opacity"></div>
+    <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[70] translate-x-full cart-sidebar flex flex-col shadow-2xl">
+        <div class="p-6 border-b flex justify-between items-center bg-puntofit-red text-white">
+            <h3 class="text-xl font-bold uppercase tracking-tighter">Tu Pedido</h3>
+            <button type="button" onclick="toggleCart()" class="text-2xl">&times;</button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm">
+            <p class="text-gray-500 italic text-center py-10">Tu carrito está vacío, ¡empieza a entrenar duro!</p>
+        </div>
+        <div class="p-6 border-t bg-gray-50">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-lg font-bold">Total:</span>
+                <span id="cart-total" class="text-2xl font-extrabold text-puntofit-red">$0.00</span>
+            </div>
+            <button type="button" onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+                <i class="fab fa-whatsapp text-xl"></i>
+                <span>PEDIR POR WHATSAPP</span>
+            </button>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-white py-8 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <a href="../index.html" class="text-gray-400 hover:text-white transition text-sm">
+                <i class="fas fa-arrow-left mr-2"></i>Volver al inicio
+            </a>
+        </div>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/products-data.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/product-modal.js"></script>
+    <script src="../js/productos.js"></script>
+</body>
+</html>

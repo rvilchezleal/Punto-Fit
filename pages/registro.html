@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | PuntoFit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="bg-gray-50 text-gray-900">
+
+    <nav class="bg-white shadow-md border-b-4 border-puntofit-red">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="../index.html" class="flex items-center space-x-2">
+                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
+                <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
+            </a>
+            <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
+                <i id="theme-icon" class="fas fa-moon text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="auth-page min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-12">
+        <div class="auth-card w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl font-black uppercase tracking-tight">Crear cuenta</h1>
+                <p class="text-gray-500 mt-2">Únete a PuntoFit Maracaibo</p>
+            </div>
+
+            <form class="space-y-5" action="#" method="post">
+                <div>
+                    <label for="name" class="block text-sm font-semibold text-gray-700 mb-2">Nombre completo</label>
+                    <input type="text" id="name" name="name" required placeholder="Tu nombre"
+                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition">
+                </div>
+                <div>
+                    <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Correo electrónico</label>
+                    <input type="email" id="email" name="email" required placeholder="tu@email.com"
+                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition">
+                </div>
+                <div>
+                    <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
+                    <input type="password" id="password" name="password" required minlength="8" placeholder="Mínimo 8 caracteres"
+                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition">
+                </div>
+                <div>
+                    <label for="confirm-password" class="block text-sm font-semibold text-gray-700 mb-2">Confirmar contraseña</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required minlength="8" placeholder="Repite tu contraseña"
+                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition">
+                </div>
+                <label class="flex items-start gap-2 text-sm text-gray-600 cursor-pointer">
+                    <input type="checkbox" name="terms" required class="mt-1 rounded border-gray-300 text-puntofit-red focus:ring-red-500">
+                    <span>Acepto los términos y condiciones y la política de privacidad de PuntoFit</span>
+                </label>
+                <button type="submit" class="w-full bg-puntofit-red hover:bg-red-700 text-white font-bold py-3 rounded-xl transition uppercase tracking-wider">
+                    Registrarme
+                </button>
+            </form>
+
+            <p class="text-center text-gray-500 mt-8 text-sm">
+                ¿Ya tienes cuenta?
+                <a href="login.html" class="text-puntofit-red font-bold hover:underline">Inicia sesión</a>
+            </p>
+
+            <a href="../index.html" class="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-puntofit-red transition">
+                <i class="fas fa-arrow-left"></i>
+                Volver a la tienda
+            </a>
+        </div>
+    </main>
+
+    <script src="../js/common.js"></script>
+</body>
+</html>
