@@ -91,11 +91,11 @@ function renderLoggedIn(nombre, esAdmin, base) {
                     Panel de Admin
                 </a>` : ''}
                 <a href="#"
-                   onclick="handlePaypalCheckout(event)"
+                   onclick="handleVerCompras(event)"
                    class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700
                           hover:bg-red-50 hover:text-puntofit-red transition">
-                    <i class="fab fa-paypal text-blue-600 w-4"></i>
-                    Pagar con PayPal
+                    <i class="fas fa-shopping-bag text-puntofit-red w-4"></i>
+                    Mis Compras
                 </a>
                 <button onclick="cerrarSesion()"
                         class="w-full flex items-center gap-3 px-4 py-2.5 text-sm
@@ -122,8 +122,8 @@ window.cerrarSesion = async function () {
     window.location.reload();
 };
 
-// Botón "Pagar con PayPal" del menú → abre historial de compras
-window.handlePaypalCheckout = async function (e) {
+// Botón "Mis Compras" del menú → abre historial de compras
+window.handleVerCompras = async function (e) {
     e.preventDefault();
     document.getElementById('user-dropdown')?.classList.add('hidden');
 
@@ -135,10 +135,14 @@ window.handlePaypalCheckout = async function (e) {
         .select('*')
         .eq('usuario_id', session.user.id)
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(20);
 
     abrirModalHistorial(pedidos || []);
 };
+
+// Alias para compatibilidad
+window.handlePaypalCheckout = window.handleVerCompras;
+
 
 window.abrirModalHistorial = function (pedidos) {
     const existing = document.getElementById('historial-modal');

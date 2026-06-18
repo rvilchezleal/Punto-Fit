@@ -93,5 +93,6 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeCategoryModal();
         closeProductModal();
+        if (typeof cerrarModalFAQ === 'function') cerrarModalFAQ();
     }
 });

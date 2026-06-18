@@ -198,9 +198,14 @@
             <!-- Pedidos -->
             <section id="section-pedidos" class="admin-section hidden">
                 <div class="admin-panel">
-                    <div class="admin-panel__header">
-                        <h2 class="admin-panel__title">Pedidos recientes</h2>
-                        <p class="admin-panel__desc">Vista demo — conecta tu backend para datos en tiempo real.</p>
+                    <div class="admin-panel__header admin-panel__header--split">
+                        <div>
+                            <h2 class="admin-panel__title">Pedidos recientes</h2>
+                            <p class="admin-panel__desc">Datos en tiempo real desde Supabase. Se actualiza automáticamente.</p>
+                        </div>
+                        <button type="button" onclick="refreshPedidos()" class="admin-btn admin-btn--secondary">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
                     </div>
                     <div class="admin-table-wrap">
                         <table class="admin-table">
@@ -208,8 +213,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Cliente</th>
+                                    <th>Productos</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
+                                    <th>Estado / Fecha</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-orders-table"></tbody>
@@ -221,15 +227,20 @@
             <!-- Clientes -->
             <section id="section-clientes" class="admin-section hidden">
                 <div class="admin-panel">
-                    <div class="admin-panel__header">
-                        <h2 class="admin-panel__title">Base de clientes</h2>
-                        <p class="admin-panel__desc">Vista demo — integra con tu sistema de usuarios.</p>
+                    <div class="admin-panel__header admin-panel__header--split">
+                        <div>
+                            <h2 class="admin-panel__title">Base de clientes</h2>
+                            <p class="admin-panel__desc">Clientes agrupados por historial de compras reales.</p>
+                        </div>
+                        <button type="button" onclick="refreshClientes()" class="admin-btn admin-btn--secondary">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
                     </div>
                     <div class="admin-table-wrap">
                         <table class="admin-table">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
+                                    <th>Cliente</th>
                                     <th>Correo</th>
                                     <th>Pedidos</th>
                                     <th>Total gastado</th>
@@ -314,7 +325,18 @@
     </div>
 
     <script src="../js/products-data.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/admin.js"></script>
+    <script type="module" src="../js/admin.js"></script>
+    <script>
+        // Helpers globales para botones de actualización manual
+        async function refreshPedidos() {
+            const btn = event?.currentTarget;
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
+            // renderOrdersTable está definida en el módulo, se accede vía evento
+            setTimeout(() => window.location.reload(), 100);
+        }
+        async function refreshClientes() {
+            setTimeout(() => window.location.reload(), 100);
+        }
+    </script>
 </body>
 </html>
