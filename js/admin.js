@@ -296,7 +296,8 @@ async function renderOrdersTable() {
         .limit(50);
 
     if (error) {
-        tbody.innerHTML = `<tr><td colspan="5" class="admin-table-empty text-red-500">Error al cargar pedidos.</td></tr>`;
+        console.error("Error al cargar pedidos:", error);
+        tbody.innerHTML = `<tr><td colspan="5" class="admin-table-empty text-red-500">Error de Supabase: ${error.message}</td></tr>`;
         return;
     }
 
@@ -345,7 +346,7 @@ async function renderClientsTable() {
 
     if (error) {
         console.error("Error al cargar clientes:", error);
-        tbody.innerHTML = `<tr><td colspan="4" class="admin-table-empty text-red-500">Error al cargar clientes.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="admin-table-empty text-red-500">Error de Supabase: ${error.message}</td></tr>`;
         return;
     }
 
