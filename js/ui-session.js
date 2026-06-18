@@ -10,17 +10,22 @@ const ADMIN_EMAILS = ['admin@puntofit.com', 'rvilchezleal@gmail.com'];
 
 export async function initSessionUI(isInPagesFolder = false) {
     const base = isInPagesFolder ? '../' : '';
+
+    // Ocultar el contenedor mientras resolvemos la sesión
+    const container = document.getElementById('auth-buttons');
+    if (container) container.style.visibility = 'hidden';
+
     const { data: { session } } = await supabase.auth.getSession();
 
     if (!session) {
         renderLoggedOut(base);
+        if (container) container.style.visibility = 'visible';
         return null;
     }
 
     const user = session.user;
     const nombre = user.user_metadata?.full_name || user.email.split('@')[0];
 
-    // Consultar rol en tabla usuarios
     const { data: perfil } = await supabase
         .from('usuarios')
         .select('rol, nombre')
@@ -32,6 +37,7 @@ export async function initSessionUI(isInPagesFolder = false) {
     const nombreMostrar = perfil?.nombre || nombre;
 
     renderLoggedIn(nombreMostrar, esAdmin, base);
+    if (container) container.style.visibility = 'visible';
     return { user, rol, esAdmin, nombre: nombreMostrar };
 }
 
@@ -41,8 +47,7 @@ function renderLoggedOut(base) {
     container.innerHTML = `
         <a href="${base}pages/login.html"
            class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold
-                  text-gray-700 hover:text-puntofit-red border-2 border-puntofit-red
-                  rounded-full transition">
+                  text-gray-700 hover:text-puntofit-red border-2 border-puntofit-red rounded-full transition">
             <i class="fas fa-user"></i>
             <span>Iniciar sesión</span>
         </a>
@@ -101,7 +106,6 @@ function renderLoggedIn(nombre, esAdmin, base) {
             </div>
         </div>`;
 
-    // Saludo en el hero si existe
     const saludo = document.getElementById('hero-saludo');
     if (saludo) {
         saludo.textContent = `¡Bienvenido de vuelta, ${nombre}!`;
@@ -109,7 +113,6 @@ function renderLoggedIn(nombre, esAdmin, base) {
     }
 }
 
-// Estas funciones se exponen globalmente para los onclick del HTML
 window.toggleUserMenu = function () {
     document.getElementById('user-dropdown')?.classList.toggle('hidden');
 };
@@ -122,13 +125,10 @@ window.cerrarSesion = async function () {
 window.handlePaypalCheckout = function (e) {
     e.preventDefault();
     const total = document.getElementById('cart-total')?.innerText || '$0.00';
-
     if (total === '$0.00') {
         alert('Tu carrito está vacío. Agrega productos antes de pagar.');
         return;
     }
-
-    // Cierra el menú y abre el modal de PayPal simulado
     document.getElementById('user-dropdown')?.classList.add('hidden');
     abrirModalPaypal(total);
 };
@@ -144,8 +144,9 @@ window.abrirModalPaypal = function (total) {
         <div class="absolute inset-0 bg-black/60" onclick="cerrarModalPaypal()"></div>
         <div class="relative bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
             <div class="bg-[#003087] p-5 text-center">
-                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
-                     alt="PayPal" class="h-10 mx-auto rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 30" class="h-10 mx-auto" fill="white">
+                    <text y="24" font-size="22" font-family="Arial" font-weight="bold">PayPal</text>
+                </svg>
             </div>
             <div class="p-6">
                 <p class="text-center text-gray-500 text-sm mb-1">Total a pagar</p>
@@ -153,10 +154,10 @@ window.abrirModalPaypal = function (total) {
                 <div class="space-y-3 mb-5">
                     <input type="email" id="pp-email" placeholder="Correo de PayPal"
                            class="w-full px-4 py-3 rounded-xl border border-gray-200
-                                  focus:outline-none focus:border-[#003087] text-sm transition">
+                                  focus:outline-none focus:border-blue-500 text-sm transition">
                     <input type="password" id="pp-pass" placeholder="Contraseña"
                            class="w-full px-4 py-3 rounded-xl border border-gray-200
-                                  focus:outline-none focus:border-[#003087] text-sm transition">
+                                  focus:outline-none focus:border-blue-500 text-sm transition">
                 </div>
                 <button onclick="simularPagoPaypal()"
                         class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087]
@@ -168,7 +169,7 @@ window.abrirModalPaypal = function (total) {
                     Cancelar
                 </button>
                 <p class="text-center text-xs text-gray-400 mt-4">
-                    🔒 Pago simulado — no se procesará ningún cobro real
+                    Pago simulado — no se procesará ningún cobro real
                 </p>
             </div>
         </div>`;
@@ -182,21 +183,17 @@ window.cerrarModalPaypal = function () {
 window.simularPagoPaypal = function () {
     const email = document.getElementById('pp-email')?.value;
     const pass  = document.getElementById('pp-pass')?.value;
-
     if (!email || !pass) {
         alert('Completa el correo y contraseña de PayPal.');
         return;
     }
-
     cerrarModalPaypal();
 
-    // Simula procesamiento
     const overlay = document.createElement('div');
     overlay.id = 'paypal-loading';
     overlay.className = 'fixed inset-0 z-[400] flex flex-col items-center justify-center bg-white';
     overlay.innerHTML = `
-        <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg"
-             alt="PayPal" class="h-16 mb-6 rounded">
+        <p class="text-4xl font-black text-[#003087] mb-6">PayPal</p>
         <div class="w-10 h-10 border-4 border-[#003087] border-t-[#FFB700]
                     rounded-full animate-spin mb-4"></div>
         <p class="text-[#003087] font-semibold">Procesando pago...</p>`;
@@ -229,7 +226,6 @@ window.mostrarExitoPaypal = function () {
     document.body.appendChild(modal);
 };
 
-// Cierra el menú al hacer clic fuera
 document.addEventListener('click', (e) => {
     const wrapper = document.getElementById('user-menu-wrapper');
     if (wrapper && !wrapper.contains(e.target)) {

@@ -8,10 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-config.js"></script>
-    <script src="js/supabase-client.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
@@ -21,7 +17,7 @@
                 <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
                 <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
             </a>
-            
+
             <div class="hidden md:flex space-x-8 font-semibold text-sm uppercase tracking-wider">
                 <a href="index.html#home" class="hover:text-puntofit-red transition">Inicio</a>
                 <a href="pages/productos.html" class="hover:text-puntofit-red transition">Productos</a>
@@ -32,30 +28,20 @@
                 <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
                     <i id="theme-icon" class="fas fa-moon text-xl"></i>
                 </button>
-                <div id="auth-buttons" class="flex items-center">
-                     <!-- Se rellena dinámicamente por ui-session.js -->
+
+                <!-- Auth buttons: se rellena dinámicamente por ui-session.js -->
+                <div id="auth-buttons" class="flex items-center min-w-[40px]">
+                    <!-- vacío intencionalmente: ui-session.js lo rellena -->
                 </div>
-                    <i class="fas fa-user"></i>
-                    <span>Iniciar sesión</span>
-                
-                <div id="auth-buttons" class="flex items-center">
-                    <!-- Se rellena dinámicamente por ui-session.js -->
-                </div>
+
                 <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-puntofit-red transition">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </button>
-                <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden text-gray-700 hover:text-puntofit-red transition" aria-label="Abrir menú">
-                    <i id="mobile-menu-icon" class="fas fa-bars text-xl"></i>
+                <button class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
-        </div>
-        
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 py-3 space-y-3">
-            <a href="index.html#home" onclick="closeMobileMenu()" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Inicio</a>
-            <a href="pages/productos.html" onclick="closeMobileMenu()" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Productos</a>
-            <a href="index.html#contacto" onclick="closeMobileMenu()" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Ubicación</a>
-            <a href="pages/login.html" class="block py-2 font-semibold text-sm uppercase tracking-wider hover:text-puntofit-red transition">Iniciar sesión</a>
         </div>
     </nav>
 
@@ -76,12 +62,13 @@
         </div>
         <div class="hero-carousel__overlay"></div>
         <div class="relative z-10 max-w-3xl">
+            <!-- Saludo personalizado (visible solo si hay sesión) -->
+            <p id="hero-saludo" class="hidden text-white/80 text-lg mb-2 italic font-light"></p>
             <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight uppercase">Entrena <span class="text-puntofit-red">Sin Límites</span></h2>
             <p class="text-lg md:text-xl mb-8 font-light italic">Los mejores suplementos de Maracaibo al mejor precio. Resultados garantizados.</p>
             <a href="pages/productos.html" class="bg-puntofit-red hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 uppercase tracking-widest shadow-lg">
                 Ver Catálogo
             </a>
-            <p id="hero-saludo" class="hidden text-white/80 text-lg mb-2 italic"></p>
         </div>
     </section>
 
@@ -127,8 +114,7 @@
                 <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestros productos <span class="text-puntofit-red">más vendidos</span></h2>
                 <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Los favoritos de nuestros clientes en Maracaibo. Añádelos al carrito al instante.</p>
             </div>
-            <div id="bestsellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            </div>
+            <div id="bestsellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </section>
 
         <div class="text-center mt-12">
@@ -154,7 +140,6 @@
                         <p class="text-gray-600 leading-relaxed">Sí, contamos con servicio de delivery en Maracaibo y zonas cercanas. Al confirmar tu pedido por WhatsApp te indicamos el costo del envío y el tiempo estimado de entrega.</p>
                     </div>
                 </div>
-
                 <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                     <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
                         <span>¿Los productos son 100% originales?</span>
@@ -164,7 +149,6 @@
                         <p class="text-gray-600 leading-relaxed">Todos nuestros suplementos son originales y provienen de distribuidores autorizados. Trabajamos con marcas reconocidas como Optimum Nutrition, MuscleTech, Dymatize y más.</p>
                     </div>
                 </div>
-
                 <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                     <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
                         <span>¿Qué métodos de pago aceptan?</span>
@@ -174,7 +158,6 @@
                         <p class="text-gray-600 leading-relaxed">Aceptamos transferencia bancaria, pago móvil (Pago Móvil), efectivo en tienda y Zelle. Te enviamos los datos de pago al confirmar tu pedido.</p>
                     </div>
                 </div>
-
                 <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                     <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
                         <span>¿Cómo puedo hacer un pedido?</span>
@@ -184,7 +167,6 @@
                         <p class="text-gray-600 leading-relaxed">Agrega los productos al carrito y presiona «Pedir por WhatsApp». También puedes visitarnos en Calle 72 con Av. 10, Maracaibo, o escribirnos directamente al +58 412-1234567.</p>
                     </div>
                 </div>
-
                 <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                     <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
                         <span>¿Cuál suplemento me recomiendan para empezar?</span>
@@ -194,7 +176,6 @@
                         <p class="text-gray-600 leading-relaxed">Depende de tu objetivo: proteína para recuperación muscular, creatina para fuerza, aminoácidos para resistencia o pre-entreno para energía. En tienda te asesoramos sin compromiso según tu rutina y meta.</p>
                     </div>
                 </div>
-
                 <div class="faq-item bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm">
                     <button type="button" class="faq-question w-full flex items-center justify-between gap-4 px-5 py-4 text-left font-bold text-gray-800 hover:text-puntofit-red transition" onclick="toggleFaq(this)" aria-expanded="false">
                         <span>¿Cuál es el horario de la tienda?</span>
@@ -208,6 +189,7 @@
         </section>
     </main>
 
+    <!-- Modal de producto -->
     <div id="product-modal" class="hidden fixed inset-0 z-[85] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/60" onclick="closeProductModal()"></div>
         <div class="product-modal-content relative bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -235,6 +217,7 @@
         </div>
     </div>
 
+    <!-- Modal de categoría -->
     <div id="category-modal" class="hidden fixed inset-0 z-[80] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/60" onclick="closeCategoryModal()"></div>
         <div class="category-modal-content relative bg-white rounded-2xl max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -251,13 +234,12 @@
                 <ul id="modal-benefits" class="category-modal__list"></ul>
                 <h4 class="category-modal__subtitle">Modo de uso</h4>
                 <p id="modal-usage" class="category-modal__text category-modal__text--last"></p>
-                <a href="pages/productos.html" class="category-modal__btn">
-                    Ver productos en tienda
-                </a>
+                <a href="pages/productos.html" class="category-modal__btn">Ver productos en tienda</a>
             </div>
         </div>
     </div>
 
+    <!-- Carrito -->
     <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden transition-opacity"></div>
     <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[70] translate-x-full cart-sidebar flex flex-col shadow-2xl">
         <div class="p-6 border-b flex justify-between items-center bg-puntofit-red text-white">
@@ -265,7 +247,6 @@
             <button onclick="toggleCart()" class="text-2xl">&times;</button>
         </div>
         <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm">
-            <!-- Items del carrito -->
             <p class="text-gray-500 italic text-center py-10">Tu carrito está vacío, ¡empieza a entrenar duro!</p>
         </div>
         <div class="p-6 border-t bg-gray-50">
@@ -273,9 +254,13 @@
                 <span class="text-lg font-bold">Total:</span>
                 <span id="cart-total" class="text-2xl font-extrabold text-puntofit-red">$0.00</span>
             </div>
-            <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+            <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 mb-2">
                 <i class="fab fa-whatsapp text-xl"></i>
                 <span>PEDIR POR WHATSAPP</span>
+            </button>
+            <button onclick="pagarConPaypalDesdeCarrito()" class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087] font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+                <i class="fab fa-paypal text-xl"></i>
+                <span>PAGAR CON PAYPAL</span>
             </button>
         </div>
     </div>
@@ -316,9 +301,30 @@
     <script src="js/cart.js"></script>
     <script src="js/product-modal.js"></script>
     <script src="js/script.js"></script>
+    <!-- Sesión de usuario -->
     <script type="module">
         import { initSessionUI } from './js/ui-session.js';
         initSessionUI(false);
+    </script>
+    <script>
+        function pagarConPaypalDesdeCarrito() {
+            const total = document.getElementById('cart-total')?.innerText || '$0.00';
+            if (!cart || cart.length === 0) {
+                alert('Tu carrito está vacío. Agrega productos antes de pagar.');
+                return;
+            }
+            // Cerrar el carrito y abrir PayPal
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            if (sidebar) sidebar.classList.add('translate-x-full');
+            if (overlay) overlay.classList.add('hidden');
+            // Llama a la función de PayPal de ui-session.js
+            if (typeof abrirModalPaypal === 'function') {
+                abrirModalPaypal(total);
+            } else {
+                alert('Inicia sesión para pagar con PayPal.');
+            }
+        }
     </script>
 </body>
 </html>

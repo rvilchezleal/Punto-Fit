@@ -8,10 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css">
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../js/supabase-config.js"></script>
-    <script src="../js/supabase-client.js"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
 
@@ -32,12 +28,12 @@
                 <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
                     <i id="theme-icon" class="fas fa-moon text-xl"></i>
                 </button>
-                <div id="auth-buttons" class="flex items-center">
-                    <!-- Se rellena dinámicamente -->
+
+                <!-- Auth buttons: se rellena dinámicamente por ui-session.js -->
+                <div id="auth-buttons" class="flex items-center min-w-[40px]">
+                    <!-- vacío intencionalmente: ui-session.js lo rellena -->
                 </div>
-                <div id="auth-buttons" class="flex items-center">
-                    <!-- Se rellena dinámicamente -->
-                </div>
+
                 <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-puntofit-red transition">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
@@ -60,10 +56,10 @@
             <button type="button" onclick="filterProducts('pre-workout', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Pre-Entrenos</button>
         </div>
 
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        </div>
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
     </main>
 
+    <!-- Modal de producto -->
     <div id="product-modal" class="hidden fixed inset-0 z-[85] flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-black/60" onclick="closeProductModal()"></div>
         <div class="product-modal-content relative bg-white rounded-2xl w-full max-w-md shadow-2xl max-h-[90vh] overflow-y-auto">
@@ -91,6 +87,7 @@
         </div>
     </div>
 
+    <!-- Carrito -->
     <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden transition-opacity"></div>
     <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[70] translate-x-full cart-sidebar flex flex-col shadow-2xl">
         <div class="p-6 border-b flex justify-between items-center bg-puntofit-red text-white">
@@ -105,9 +102,13 @@
                 <span class="text-lg font-bold">Total:</span>
                 <span id="cart-total" class="text-2xl font-extrabold text-puntofit-red">$0.00</span>
             </div>
-            <button type="button" onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+            <button type="button" onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 mb-2">
                 <i class="fab fa-whatsapp text-xl"></i>
                 <span>PEDIR POR WHATSAPP</span>
+            </button>
+            <button type="button" onclick="pagarConPaypalDesdeCarrito()" class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087] font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+                <i class="fab fa-paypal text-xl"></i>
+                <span>PAGAR CON PAYPAL</span>
             </button>
         </div>
     </div>
@@ -125,9 +126,28 @@
     <script src="../js/cart.js"></script>
     <script src="../js/product-modal.js"></script>
     <script src="../js/productos.js"></script>
+    <!-- Sesión de usuario -->
     <script type="module">
         import { initSessionUI } from '../js/ui-session.js';
         initSessionUI(true);
+    </script>
+    <script>
+        function pagarConPaypalDesdeCarrito() {
+            const total = document.getElementById('cart-total')?.innerText || '$0.00';
+            if (!cart || cart.length === 0) {
+                alert('Tu carrito está vacío. Agrega productos antes de pagar.');
+                return;
+            }
+            const sidebar = document.getElementById('cart-sidebar');
+            const overlay = document.getElementById('cart-overlay');
+            if (sidebar) sidebar.classList.add('translate-x-full');
+            if (overlay) overlay.classList.add('hidden');
+            if (typeof abrirModalPaypal === 'function') {
+                abrirModalPaypal(total);
+            } else {
+                alert('Inicia sesión para pagar con PayPal.');
+            }
+        }
     </script>
 </body>
 </html>
