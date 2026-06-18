@@ -122,15 +122,85 @@ window.cerrarSesion = async function () {
     window.location.reload();
 };
 
-window.handlePaypalCheckout = function (e) {
+// Botón "Pagar con PayPal" del menú → abre historial de compras
+window.handlePaypalCheckout = async function (e) {
     e.preventDefault();
-    const total = document.getElementById('cart-total')?.innerText || '$0.00';
-    if (total === '$0.00') {
-        alert('Tu carrito está vacío. Agrega productos antes de pagar.');
-        return;
-    }
     document.getElementById('user-dropdown')?.classList.add('hidden');
-    abrirModalPaypal(total);
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { alert('Inicia sesión para ver tus compras.'); return; }
+
+    const { data: pedidos } = await supabase
+        .from('pedidos')
+        .select('*')
+        .eq('usuario_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+    abrirModalHistorial(pedidos || []);
+};
+
+window.abrirModalHistorial = function (pedidos) {
+    const existing = document.getElementById('historial-modal');
+    if (existing) existing.remove();
+
+    const vacio = `
+        <div class="text-center py-10">
+            <i class="fas fa-shopping-bag text-4xl text-gray-200 mb-3"></i>
+            <p class="text-gray-400 text-sm">Aún no tienes compras registradas.</p>
+            <p class="text-gray-300 text-xs mt-1">Usa el botón PayPal del carrito para comprar.</p>
+        </div>`;
+
+    const filas = pedidos.length === 0 ? vacio : pedidos.map(p => {
+        const items = Array.isArray(p.items) ? p.items : [];
+        return `
+        <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+            <div class="flex justify-between items-start mb-2">
+                <span class="text-xs text-gray-400">
+                    ${new Date(p.created_at).toLocaleDateString('es-VE', {
+                        day: '2-digit', month: 'short', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    })}
+                </span>
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-green-600 bg-green-100 px-2 py-0.5 rounded-full">
+                        ${p.estado || 'completado'}
+                    </span>
+                    <span class="font-black text-puntofit-red">$${Number(p.total).toFixed(2)}</span>
+                </div>
+            </div>
+            <ul class="text-xs text-gray-600 space-y-0.5">
+                ${items.map(i => `<li>· ${i.quantity}x ${i.name} — $${(i.price * i.quantity).toFixed(2)}</li>`).join('')}
+            </ul>
+        </div>`;
+    }).join('');
+
+    const modal = document.createElement('div');
+    modal.id = 'historial-modal';
+    modal.className = 'fixed inset-0 z-[300] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="absolute inset-0 bg-black/60" onclick="cerrarModalHistorial()"></div>
+        <div class="relative bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden max-h-[85vh] flex flex-col">
+            <div class="bg-[#003087] px-6 py-4 flex items-center justify-between shrink-0">
+                <div>
+                    <p class="text-white font-black text-lg">Mis compras</p>
+                    <p class="text-blue-200 text-xs">Historial de pagos con PayPal</p>
+                </div>
+                <button onclick="cerrarModalHistorial()" class="text-white/70 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+            <div class="overflow-y-auto p-5 space-y-3 flex-1">${filas}</div>
+            <div class="px-5 py-4 border-t border-gray-100 shrink-0">
+                <p class="text-xs text-gray-400 text-center">
+                    <i class="fab fa-paypal text-blue-500 mr-1"></i>
+                    ${pedidos.length} compra${pedidos.length !== 1 ? 's' : ''} registrada${pedidos.length !== 1 ? 's' : ''}
+                </p>
+            </div>
+        </div>`;
+    document.body.appendChild(modal);
+};
+
+window.cerrarModalHistorial = function () {
+    document.getElementById('historial-modal')?.remove();
 };
 
 window.abrirModalPaypal = function (total) {
@@ -180,15 +250,27 @@ window.cerrarModalPaypal = function () {
     document.getElementById('paypal-modal')?.remove();
 };
 
-window.simularPagoPaypal = function () {
+window.simularPagoPaypal = async function () {
     const email = document.getElementById('pp-email')?.value;
     const pass  = document.getElementById('pp-pass')?.value;
     if (!email || !pass) {
         alert('Completa el correo y contraseña de PayPal.');
         return;
     }
+
+    // Obtener total y carrito actuales
+    const totalText = document.getElementById('cart-total')?.innerText || '$0.00';
+    const totalNum  = parseFloat(totalText.replace('$', '')) || 0;
+    const itemsCarrito = (typeof cart !== 'undefined' ? cart : []).map(i => ({
+        id: i.id,
+        name: i.name,
+        price: i.price,
+        quantity: i.quantity
+    }));
+
     cerrarModalPaypal();
 
+    // Pantalla de procesando
     const overlay = document.createElement('div');
     overlay.id = 'paypal-loading';
     overlay.className = 'fixed inset-0 z-[400] flex flex-col items-center justify-center bg-white';
@@ -198,6 +280,27 @@ window.simularPagoPaypal = function () {
                     rounded-full animate-spin mb-4"></div>
         <p class="text-[#003087] font-semibold">Procesando pago...</p>`;
     document.body.appendChild(overlay);
+
+    // Guardar pedido en Supabase
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session && itemsCarrito.length > 0) {
+        const user = session.user;
+        const { data: perfil } = await supabase
+            .from('usuarios')
+            .select('nombre')
+            .eq('id', user.id)
+            .single();
+
+        await supabase.from('pedidos').insert({
+            usuario_id:     user.id,
+            usuario_email:  user.email,
+            usuario_nombre: perfil?.nombre || user.email.split('@')[0],
+            items:          itemsCarrito,
+            total:          totalNum,
+            estado:         'completado',
+            metodo_pago:    'paypal'
+        });
+    }
 
     setTimeout(() => {
         overlay.remove();
