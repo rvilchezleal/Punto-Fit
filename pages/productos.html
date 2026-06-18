@@ -32,13 +32,12 @@
                 <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
                     <i id="theme-icon" class="fas fa-moon text-xl"></i>
                 </button>
-                <a href="login.html" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-700 hover:text-puntofit-red border-2 border-puntofit-red rounded-full transition">
-                    <i class="fas fa-user"></i>
-                    <span>Iniciar sesión</span>
-                </a>
-                <a href="login.html" class="sm:hidden p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Iniciar sesión">
-                    <i class="fas fa-user text-xl"></i>
-                </a>
+                <div id="auth-buttons" class="flex items-center">
+                    <!-- Se rellena dinámicamente -->
+                </div>
+                <div id="auth-buttons" class="flex items-center">
+                    <!-- Se rellena dinámicamente -->
+                </div>
                 <button onclick="toggleCart()" class="relative p-2 text-gray-700 hover:text-puntofit-red transition">
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
@@ -126,5 +125,9 @@
     <script src="../js/cart.js"></script>
     <script src="../js/product-modal.js"></script>
     <script src="../js/productos.js"></script>
+    <script type="module">
+        import { initSessionUI } from '../js/ui-session.js';
+        initSessionUI(true);
+    </script>
 </body>
 </html>
