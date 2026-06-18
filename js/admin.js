@@ -85,7 +85,7 @@ async function loadStats() {
         .from('pedidos')
         .select('total')
         .eq('estado', 'completado')
-        .gte('created_at', today.toISOString());
+        .gte('fecha', today.toISOString());
 
     const totalHoy = (ventasHoy || []).reduce((sum, p) => sum + Number(p.total), 0);
 
@@ -109,6 +109,113 @@ async function loadStats() {
     document.getElementById('stat-daily-sales-compact') && (document.getElementById('stat-daily-sales-compact').textContent = sales);
     document.querySelector('[data-stat="pending"]') && (document.querySelector('[data-stat="pending"]').textContent = pending);
     document.querySelector('[data-stat="lowstock"]') && (document.querySelector('[data-stat="lowstock"]').textContent = lowStock);
+
+    await renderSalesChart();
+}
+
+// ── REGRESIÓN LINEAL Y CHART.JS ─────────────────────────
+let salesChartInstance = null;
+
+function calculateLinearRegression(dataPairs) {
+    const n = dataPairs.length;
+    if (n === 0) return { m: 0, b: 0 };
+    let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+    
+    dataPairs.forEach(([x, y]) => {
+        sumX += x;
+        sumY += y;
+        sumXY += x * y;
+        sumXX += x * x;
+    });
+
+    const m = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX) || 0;
+    const b = (sumY - m * sumX) / n || 0;
+    return { m, b };
+}
+
+async function renderSalesChart() {
+    const canvas = document.getElementById('salesChart');
+    if (!canvas) return;
+
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    
+    const { data: pedidos } = await supabase
+        .from('pedidos')
+        .select('fecha, total')
+        .eq('estado', 'completado')
+        .gte('fecha', thirtyDaysAgo.toISOString())
+        .order('fecha', { ascending: true });
+
+    if (!pedidos || pedidos.length === 0) return;
+
+    const dailyMap = {};
+    pedidos.forEach(p => {
+        const dateStr = new Date(p.fecha).toLocaleDateString('es-VE', { month: 'short', day: 'numeric' });
+        dailyMap[dateStr] = (dailyMap[dateStr] || 0) + Number(p.total);
+    });
+
+    const labels = Object.keys(dailyMap);
+    const dataPoints = Object.values(dailyMap);
+
+    const regressionData = dataPoints.map((y, x) => [x, y]);
+    const { m, b } = calculateLinearRegression(regressionData);
+    const trendline = labels.map((_, x) => m * x + b);
+
+    if (salesChartInstance) salesChartInstance.destroy();
+
+    salesChartInstance = new Chart(canvas, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Ventas Reales ($)',
+                    data: dataPoints,
+                    backgroundColor: 'rgba(0, 48, 135, 0.7)',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Tendencia (Regresión)',
+                    data: trendline,
+                    type: 'line',
+                    borderColor: '#FFB700',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    pointRadius: 0,
+                    fill: false
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+}
+
+// ── CARGA DE PRODUCTOS DESDE SUPABASE ────────────────────
+async function loadProductsFromSupabase() {
+    const { data, error } = await supabase.from('productos').select('*').order('id');
+    if (error) {
+        console.error("Error al cargar productos de Supabase:", error);
+        return [];
+    }
+    // Mapear al formato local temporalmente para no romper la tabla
+    return data.map(p => ({
+        id: p.id,
+        name: p.nombre,
+        brand: p.marca || '',
+        price: Number(p.precio),
+        stock: p.inventario,
+        category: p.categoria,
+        description: p.descripcion || '',
+        img: p.imagen_url || '',
+        usage: ''
+    }));
 }
 
 // ── PRODUCTOS ────────────────────────────────────────────
@@ -184,8 +291,8 @@ async function renderOrdersTable() {
 
     const { data: orders, error } = await supabase
         .from('pedidos')
-        .select('*')
-        .order('created_at', { ascending: false })
+        .select('*, usuarios(nombre, email)')
+        .order('fecha', { ascending: false })
         .limit(50);
 
     if (error) {
@@ -208,15 +315,15 @@ async function renderOrdersTable() {
         <tr>
             <td class="font-semibold text-xs text-gray-400">${order.id?.toString().slice(0,8) || '—'}</td>
             <td>
-                <p class="font-semibold">${order.usuario_nombre || order.usuario_email || '—'}</p>
-                <p class="text-xs text-gray-400">${order.usuario_email || ''}</p>
+                <p class="font-semibold">${order.usuarios?.nombre || order.usuarios?.email || '—'}</p>
+                <p class="text-xs text-gray-400">${order.usuarios?.email || ''}</p>
             </td>
             <td class="text-xs text-gray-500 max-w-[200px] truncate" title="${resumen}">${resumen}</td>
             <td class="font-bold text-puntofit-red">${formatCurrency(order.total)}</td>
             <td>
                 <div class="flex items-center gap-2">
                     <span class="admin-badge ${statusClass}">${statusLabel}</span>
-                    <span class="text-xs text-gray-400">${formatDate(order.created_at)}</span>
+                    <span class="text-xs text-gray-400">${formatDate(order.fecha)}</span>
                 </div>
             </td>
         </tr>`;
@@ -233,10 +340,11 @@ async function renderClientsTable() {
     // Obtener todos los pedidos para agrupar por cliente
     const { data: pedidos, error } = await supabase
         .from('pedidos')
-        .select('usuario_id, usuario_nombre, usuario_email, total')
-        .order('created_at', { ascending: false });
+        .select('id_usuario, total, usuarios(nombre, email)')
+        .order('fecha', { ascending: false });
 
     if (error) {
+        console.error("Error al cargar clientes:", error);
         tbody.innerHTML = `<tr><td colspan="4" class="admin-table-empty text-red-500">Error al cargar clientes.</td></tr>`;
         return;
     }
@@ -246,14 +354,16 @@ async function renderClientsTable() {
         return;
     }
 
-    // Agrupar por usuario_id
+    // Agrupar por id_usuario
     const clientMap = {};
     pedidos.forEach(p => {
-        const key = p.usuario_id || p.usuario_email;
+        const key = p.id_usuario;
+        if (!key) return; // Saltar si no hay usuario
+
         if (!clientMap[key]) {
             clientMap[key] = {
-                nombre: p.usuario_nombre || p.usuario_email || 'Anónimo',
-                email: p.usuario_email || '—',
+                nombre: p.usuarios?.nombre || p.usuarios?.email || 'Anónimo',
+                email: p.usuarios?.email || '—',
                 pedidos: 0,
                 total: 0
             };
@@ -305,7 +415,7 @@ window.openProductForm = function (productId = null) {
         document.getElementById('product-stock').value = product.stock;
         document.getElementById('product-category').value = product.category;
         document.getElementById('product-description').value = product.description || '';
-        document.getElementById('product-img').value = product.img || '';
+        document.getElementById('product-img-url').value = product.img || '';
         document.getElementById('product-usage').value = product.usage || '';
     } else {
         title.textContent = 'Agregar Nuevo Producto';
@@ -321,56 +431,89 @@ window.closeProductForm = function () {
     editingProductId = null;
 };
 
-window.deleteProduct = function (productId) {
+window.deleteProduct = async function (productId) {
     const product = adminProducts.find(p => p.id === productId);
     if (!product) return;
 
     if (!confirm(`¿Eliminar "${product.name}" del catálogo?`)) return;
 
-    adminProducts = adminProducts.filter(p => p.id !== productId);
-    saveProducts(adminProducts);
-    refreshAdmin();
+    const { error } = await supabase.from('productos').delete().eq('id', productId);
+    if (error) {
+        showToast(`Error al eliminar: ${error.message}`, 'error');
+        return;
+    }
+
     showToast(`"${product.name}" eliminado del catálogo.`, 'success');
+    refreshAdmin();
 };
 
-window.handleProductSubmit = function (event) {
+window.handleProductSubmit = async function (event) {
     event.preventDefault();
 
-    const formData = {
-        name:        document.getElementById('product-name').value.trim(),
-        brand:       document.getElementById('product-brand').value.trim(),
-        price:       parseFloat(document.getElementById('product-price').value),
-        stock:       parseInt(document.getElementById('product-stock').value, 10),
-        category:    document.getElementById('product-category').value,
-        description: document.getElementById('product-description').value.trim(),
-        img:         document.getElementById('product-img').value.trim(),
-        usage:       document.getElementById('product-usage').value.trim(),
-        benefits:    []
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+    }
+
+    const fileInput = document.getElementById('product-img-file');
+    let publicUrl = document.getElementById('product-img-url').value;
+
+    if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+        
+        const { error: uploadError } = await supabase.storage
+            .from('product-images')
+            .upload(fileName, file, { cacheControl: '3600', upsert: false });
+
+        if (uploadError) {
+            showToast(`Error al subir imagen: ${uploadError.message}`, 'error');
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Guardar producto'; }
+            return;
+        }
+
+        const { data: { publicUrl: url } } = supabase.storage
+            .from('product-images')
+            .getPublicUrl(fileName);
+        publicUrl = url;
+    }
+
+    const payload = {
+        nombre: document.getElementById('product-name').value.trim(),
+        marca: document.getElementById('product-brand').value.trim(),
+        precio: parseFloat(document.getElementById('product-price').value),
+        inventario: parseInt(document.getElementById('product-stock').value, 10),
+        categoria: document.getElementById('product-category').value,
+        descripcion: document.getElementById('product-description').value.trim(),
+        imagen_url: publicUrl
     };
 
     if (editingProductId) {
-        adminProducts = adminProducts.map(p =>
-            p.id === editingProductId ? { ...p, ...formData, id: editingProductId } : p
-        );
-        showToast(`"${formData.name}" actualizado correctamente.`, 'success');
+        const { error } = await supabase.from('productos').update(payload).eq('id', editingProductId);
+        if (error) {
+            showToast(`Error al actualizar: ${error.message}`, 'error');
+        } else {
+            showToast(`"${payload.nombre}" actualizado correctamente.`, 'success');
+        }
     } else {
-        const nextId = adminProducts.length ? Math.max(...adminProducts.map(p => p.id)) + 1 : 1;
-        adminProducts.push({
-            id: nextId,
-            benefits: ['Consulta la etiqueta del producto para más detalles.'],
-            ...formData
-        });
-        showToast(`"${formData.name}" añadido al catálogo.`, 'success');
+        const { error } = await supabase.from('productos').insert([payload]);
+        if (error) {
+            showToast(`Error al insertar: ${error.message}`, 'error');
+        } else {
+            showToast(`"${payload.nombre}" añadido al catálogo.`, 'success');
+        }
     }
 
-    saveProducts(adminProducts);
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.innerText = 'Guardar producto'; }
     window.closeProductForm();
     refreshAdmin();
 };
 
 // ── REFRESCAR TODO ───────────────────────────────────────
 async function refreshAdmin() {
-    adminProducts = loadProducts();
+    adminProducts = await loadProductsFromSupabase();
     await loadStats();
     renderProductsTable();
     renderLowStockList();
@@ -386,7 +529,7 @@ function suscribirCambiosEnTiempoReal() {
         .on('postgres_changes', { event: '*', schema: 'public', table: 'pedidos' }, async (payload) => {
             if (payload.eventType === 'INSERT') {
                 const p = payload.new;
-                showToast(`🛒 Nuevo pedido de ${p.usuario_nombre || p.usuario_email || 'cliente'} — ${formatCurrency(p.total)}`, 'info');
+                showToast(`🛒 Nuevo pedido registrado — ${formatCurrency(p.total)}`, 'info');
             }
             await refreshAdmin();
         })
@@ -425,8 +568,8 @@ async function initAdmin() {
         }
     }
 
-    // Cargar productos locales
-    adminProducts = loadProducts();
+    // Cargar productos de Supabase
+    adminProducts = await loadProductsFromSupabase();
 
     // Refrescar todo (incluyendo Supabase)
     await refreshAdmin();

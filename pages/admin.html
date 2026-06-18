@@ -11,6 +11,8 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/supabase-config.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/supabase-client.js"></script>
 </head>
 <body class="admin-body bg-gray-100 text-gray-900">
@@ -128,6 +130,14 @@
                             <button type="button" onclick="navigateAdmin('pedidos')" class="admin-btn admin-btn--secondary">
                                 <i class="fas fa-shopping-bag"></i> Revisar pedidos
                             </button>
+                        </div>
+                    </div>
+                    <div class="admin-panel col-span-1 lg:col-span-2 mt-6" style="grid-column: 1 / -1;">
+                        <div class="admin-panel__header">
+                            <h2 class="admin-panel__title">Proyección de Ventas (Regresión Lineal)</h2>
+                        </div>
+                        <div class="admin-panel__body">
+                            <canvas id="salesChart" height="80"></canvas>
                         </div>
                     </div>
                 </div>
@@ -301,8 +311,10 @@
                     </div>
 
                     <div class="admin-form-group admin-form-group--full">
-                        <label for="product-img">URL o ruta de imagen</label>
-                        <input type="text" id="product-img" required placeholder="img/wheyprotein.webp">
+                        <label for="product-img-file">Imagen del producto</label>
+                        <input type="file" id="product-img-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-puntofit-red hover:file:bg-red-100 transition">
+                        <p class="text-xs text-gray-400 mt-2">Sube una nueva foto. Si editas y no subes foto, se mantiene la actual.</p>
+                        <input type="hidden" id="product-img-url">
                     </div>
 
                     <div class="admin-form-group admin-form-group--full">
