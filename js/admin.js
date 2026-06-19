@@ -338,11 +338,11 @@ async function renderClientsTable() {
 
     tbody.innerHTML = `<tr><td colspan="4" class="admin-table-empty"><i class="fas fa-spinner fa-spin mr-2"></i>Cargando clientes...</td></tr>`;
 
-    // Obtener todos los pedidos para agrupar por cliente
-    const { data: pedidos, error } = await supabase
-        .from('pedidos')
-        .select('id_usuario, total, usuarios(nombre, email)')
-        .order('fecha', { ascending: false });
+    // Obtener todos los usuarios y sus pedidos
+    const { data: usuarios, error } = await supabase
+        .from('usuarios')
+        .select('id, nombre, email, pedidos(total)')
+        .order('created_at', { ascending: false });
 
     if (error) {
         console.error("Error al cargar clientes:", error);
@@ -350,30 +350,23 @@ async function renderClientsTable() {
         return;
     }
 
-    if (!pedidos || !pedidos.length) {
+    if (!usuarios || !usuarios.length) {
         tbody.innerHTML = `<tr><td colspan="4" class="admin-table-empty">No hay clientes registrados aún.</td></tr>`;
         return;
     }
 
-    // Agrupar por id_usuario
-    const clientMap = {};
-    pedidos.forEach(p => {
-        const key = p.id_usuario;
-        if (!key) return; // Saltar si no hay usuario
-
-        if (!clientMap[key]) {
-            clientMap[key] = {
-                nombre: p.usuarios?.nombre || p.usuarios?.email || 'Anónimo',
-                email: p.usuarios?.email || '—',
-                pedidos: 0,
-                total: 0
-            };
-        }
-        clientMap[key].pedidos++;
-        clientMap[key].total += Number(p.total || 0);
-    });
-
-    const clients = Object.values(clientMap).sort((a, b) => b.total - a.total);
+    const clients = usuarios.map(u => {
+        const pedidosList = u.pedidos || [];
+        const pedidosCount = pedidosList.length;
+        const total = pedidosList.reduce((sum, p) => sum + Number(p.total || 0), 0);
+        
+        return {
+            nombre: u.nombre || u.email || 'Anónimo',
+            email: u.email || '—',
+            pedidos: pedidosCount,
+            total: total
+        };
+    }).sort((a, b) => b.total - a.total);
 
     tbody.innerHTML = clients.map(client => `
         <tr>

@@ -20,13 +20,15 @@
     <div id="admin-sidebar-overlay" class="admin-sidebar-overlay hidden" onclick="closeAdminSidebar()"></div>
 
     <aside id="admin-sidebar" class="admin-sidebar">
-        <div class="admin-sidebar__brand">
-            <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-xl tracking-tighter">PF</div>
-            <div>
-                <p class="admin-sidebar__title">PUNTO<span class="text-puntofit-red">FIT</span></p>
-                <p class="admin-sidebar__subtitle">Panel Admin</p>
+        <a href="../index.html" class="admin-sidebar__brand hover:opacity-80 transition cursor-pointer block">
+            <div class="flex items-center gap-3">
+                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-xl tracking-tighter">PF</div>
+                <div>
+                    <p class="admin-sidebar__title">PUNTO<span class="text-puntofit-red">FIT</span></p>
+                    <p class="admin-sidebar__subtitle">Panel Admin</p>
+                </div>
             </div>
-        </div>
+        </a>
 
         <nav class="admin-sidebar__nav">
             <button type="button" class="admin-nav-link" data-section="resumen" onclick="navigateAdmin('resumen')">
