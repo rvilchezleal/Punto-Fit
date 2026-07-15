@@ -11,6 +11,8 @@
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../js/supabase-config.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../js/supabase-client.js"></script>
 </head>
 <body class="admin-body bg-gray-100 text-gray-900">
@@ -18,13 +20,15 @@
     <div id="admin-sidebar-overlay" class="admin-sidebar-overlay hidden" onclick="closeAdminSidebar()"></div>
 
     <aside id="admin-sidebar" class="admin-sidebar">
-        <div class="admin-sidebar__brand">
-            <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-xl tracking-tighter">PF</div>
-            <div>
-                <p class="admin-sidebar__title">PUNTO<span class="text-puntofit-red">FIT</span></p>
-                <p class="admin-sidebar__subtitle">Panel Admin</p>
+        <a href="../index.html" class="admin-sidebar__brand hover:opacity-80 transition cursor-pointer block">
+            <div class="flex items-center gap-3">
+                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-xl tracking-tighter">PF</div>
+                <div>
+                    <p class="admin-sidebar__title">PUNTO<span class="text-puntofit-red">FIT</span></p>
+                    <p class="admin-sidebar__subtitle">Panel Admin</p>
+                </div>
             </div>
-        </div>
+        </a>
 
         <nav class="admin-sidebar__nav">
             <button type="button" class="admin-nav-link" data-section="resumen" onclick="navigateAdmin('resumen')">
@@ -130,6 +134,14 @@
                             </button>
                         </div>
                     </div>
+                    <div class="admin-panel col-span-1 lg:col-span-2 mt-6" style="grid-column: 1 / -1;">
+                        <div class="admin-panel__header">
+                            <h2 class="admin-panel__title">Proyección de Ventas (Regresión Lineal)</h2>
+                        </div>
+                        <div class="admin-panel__body">
+                            <canvas id="salesChart" height="80"></canvas>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -198,9 +210,14 @@
             <!-- Pedidos -->
             <section id="section-pedidos" class="admin-section hidden">
                 <div class="admin-panel">
-                    <div class="admin-panel__header">
-                        <h2 class="admin-panel__title">Pedidos recientes</h2>
-                        <p class="admin-panel__desc">Vista demo — conecta tu backend para datos en tiempo real.</p>
+                    <div class="admin-panel__header admin-panel__header--split">
+                        <div>
+                            <h2 class="admin-panel__title">Pedidos recientes</h2>
+                            <p class="admin-panel__desc">Datos en tiempo real desde Supabase. Se actualiza automáticamente.</p>
+                        </div>
+                        <button type="button" onclick="refreshPedidos()" class="admin-btn admin-btn--secondary">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
                     </div>
                     <div class="admin-table-wrap">
                         <table class="admin-table">
@@ -208,8 +225,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Cliente</th>
+                                    <th>Productos</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
+                                    <th>Estado / Fecha</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-orders-table"></tbody>
@@ -221,15 +239,20 @@
             <!-- Clientes -->
             <section id="section-clientes" class="admin-section hidden">
                 <div class="admin-panel">
-                    <div class="admin-panel__header">
-                        <h2 class="admin-panel__title">Base de clientes</h2>
-                        <p class="admin-panel__desc">Vista demo — integra con tu sistema de usuarios.</p>
+                    <div class="admin-panel__header admin-panel__header--split">
+                        <div>
+                            <h2 class="admin-panel__title">Base de clientes</h2>
+                            <p class="admin-panel__desc">Clientes agrupados por historial de compras reales.</p>
+                        </div>
+                        <button type="button" onclick="refreshClientes()" class="admin-btn admin-btn--secondary">
+                            <i class="fas fa-sync-alt"></i> Actualizar
+                        </button>
                     </div>
                     <div class="admin-table-wrap">
                         <table class="admin-table">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
+                                    <th>Cliente</th>
                                     <th>Correo</th>
                                     <th>Pedidos</th>
                                     <th>Total gastado</th>
@@ -290,8 +313,10 @@
                     </div>
 
                     <div class="admin-form-group admin-form-group--full">
-                        <label for="product-img">URL o ruta de imagen</label>
-                        <input type="text" id="product-img" required placeholder="img/wheyprotein.webp">
+                        <label for="product-img-file">Imagen del producto</label>
+                        <input type="file" id="product-img-file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-puntofit-red hover:file:bg-red-100 transition">
+                        <p class="text-xs text-gray-400 mt-2">Sube una nueva foto. Si editas y no subes foto, se mantiene la actual.</p>
+                        <input type="hidden" id="product-img-url">
                     </div>
 
                     <div class="admin-form-group admin-form-group--full">
@@ -314,7 +339,18 @@
     </div>
 
     <script src="../js/products-data.js"></script>
-    <script src="../js/auth.js"></script>
-    <script src="../js/admin.js"></script>
+    <script type="module" src="../js/admin.js"></script>
+    <script>
+        // Helpers globales para botones de actualización manual
+        async function refreshPedidos() {
+            const btn = event?.currentTarget;
+            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
+            // renderOrdersTable está definida en el módulo, se accede vía evento
+            setTimeout(() => window.location.reload(), 100);
+        }
+        async function refreshClientes() {
+            setTimeout(() => window.location.reload(), 100);
+        }
+    </script>
 </body>
 </html>

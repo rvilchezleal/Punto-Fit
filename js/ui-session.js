@@ -91,11 +91,11 @@ function renderLoggedIn(nombre, esAdmin, base) {
                     Panel de Admin
                 </a>` : ''}
                 <a href="#"
-                   onclick="handlePaypalCheckout(event)"
+                   onclick="handleVerCompras(event)"
                    class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700
                           hover:bg-red-50 hover:text-puntofit-red transition">
-                    <i class="fab fa-paypal text-blue-600 w-4"></i>
-                    Pagar con PayPal
+                    <i class="fas fa-shopping-bag text-puntofit-red w-4"></i>
+                    Mis Compras
                 </a>
                 <button onclick="cerrarSesion()"
                         class="w-full flex items-center gap-3 px-4 py-2.5 text-sm
@@ -122,8 +122,8 @@ window.cerrarSesion = async function () {
     window.location.reload();
 };
 
-// Botón "Pagar con PayPal" del menú → abre historial de compras
-window.handlePaypalCheckout = async function (e) {
+// Botón "Mis Compras" del menú → abre historial de compras
+window.handleVerCompras = async function (e) {
     e.preventDefault();
     document.getElementById('user-dropdown')?.classList.add('hidden');
 
@@ -133,12 +133,16 @@ window.handlePaypalCheckout = async function (e) {
     const { data: pedidos } = await supabase
         .from('pedidos')
         .select('*')
-        .eq('usuario_id', session.user.id)
-        .order('created_at', { ascending: false })
-        .limit(10);
+        .eq('id_usuario', session.user.id)
+        .order('fecha', { ascending: false })
+        .limit(20);
 
     abrirModalHistorial(pedidos || []);
 };
+
+// Alias para compatibilidad
+window.handlePaypalCheckout = window.handleVerCompras;
+
 
 window.abrirModalHistorial = function (pedidos) {
     const existing = document.getElementById('historial-modal');
@@ -157,7 +161,7 @@ window.abrirModalHistorial = function (pedidos) {
         <div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
             <div class="flex justify-between items-start mb-2">
                 <span class="text-xs text-gray-400">
-                    ${new Date(p.created_at).toLocaleDateString('es-VE', {
+                    ${new Date(p.fecha).toLocaleDateString('es-VE', {
                         day: '2-digit', month: 'short', year: 'numeric',
                         hour: '2-digit', minute: '2-digit'
                     })}
@@ -285,21 +289,16 @@ window.simularPagoPaypal = async function () {
     const { data: { session } } = await supabase.auth.getSession();
     if (session && itemsCarrito.length > 0) {
         const user = session.user;
-        const { data: perfil } = await supabase
-            .from('usuarios')
-            .select('nombre')
-            .eq('id', user.id)
-            .single();
 
-        await supabase.from('pedidos').insert({
-            usuario_id:     user.id,
-            usuario_email:  user.email,
-            usuario_nombre: perfil?.nombre || user.email.split('@')[0],
+        const { error } = await supabase.from('pedidos').insert({
+            id_usuario:     user.id,
             items:          itemsCarrito,
             total:          totalNum,
-            estado:         'completado',
-            metodo_pago:    'paypal'
+            estado:         'completado', // Asumiendo que el enum lo permite
+            fecha:          new Date().toISOString()
         });
+
+        if (error) console.error("Error insertando pedido:", error);
     }
 
     setTimeout(() => {

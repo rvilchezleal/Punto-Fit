@@ -126,5 +126,6 @@ document.addEventListener('keydown', (e) => {
         closeLocationModal();
         closeCategoryModal();
         closeProductModal();
+        if (typeof cerrarModalFAQ === 'function') cerrarModalFAQ();
     }
 });
