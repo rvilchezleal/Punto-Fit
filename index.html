@@ -21,7 +21,7 @@
             <div class="hidden md:flex space-x-8 font-semibold text-sm uppercase tracking-wider">
                 <a href="index.html#home" class="hover:text-puntofit-red transition">Inicio</a>
                 <a href="pages/productos.html" class="hover:text-puntofit-red transition">Productos</a>
-                <a href="index.html#contacto" class="hover:text-puntofit-red transition">Ubicación</a>
+                <button type="button" onclick="openLocationModal()" class="hover:text-puntofit-red transition">Ubicación</button>
             </div>
 
             <div class="flex items-center space-x-3 md:space-x-4">
@@ -47,18 +47,7 @@
 
     <section id="home" class="hero-carousel h-[500px] relative overflow-hidden flex items-center justify-center text-center text-white px-4">
         <div class="hero-carousel__slides" aria-hidden="true">
-            <div class="hero-carousel__slide active">
-                <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop" alt="Gimnasio PuntoFit">
-            </div>
-            <div class="hero-carousel__slide">
-                <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=1470&auto=format&fit=crop" alt="Entrenamiento intenso">
-            </div>
-            <div class="hero-carousel__slide">
-                <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1470&auto=format&fit=crop" alt="Pesas y fuerza">
-            </div>
-            <div class="hero-carousel__slide">
-                <img src="https://images.unsplash.com/photo-1593079831268-3381b0f6f928?q=80&w=1470&auto=format&fit=crop" alt="Suplementos deportivos">
-            </div>
+            <!-- Slides generados dinámicamente por script.js desde el array heroSlides -->
         </div>
         <div class="hero-carousel__overlay"></div>
         <div class="relative z-10 max-w-3xl">
@@ -266,15 +255,10 @@
     </div>
 
     <footer id="contacto" class="bg-gray-900 text-white pt-16 pb-8">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="container mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             <div>
                 <h4 class="text-2xl font-black mb-6">PUNTO<span class="text-puntofit-red">FIT</span></h4>
-                <p class="text-gray-400 leading-relaxed mb-4">La tienda de suplementos #1 en Maracaibo. Calidad certificada y asesoría profesional para que alcances tu mejor versión.</p>
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-puntofit-red transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-puntofit-red transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-puntofit-red transition"><i class="fab fa-tiktok"></i></a>
-                </div>
+                <p class="text-gray-400 leading-relaxed">La tienda de suplementos #1 en Maracaibo. Calidad certificada y asesoría profesional para que alcances tu mejor versión.</p>
             </div>
             <div>
                 <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Visítanos</h4>
@@ -290,11 +274,67 @@
                     <li><a href="#" class="hover:text-white transition">Preguntas Frecuentes</a></li>
                 </ul>
             </div>
+            <div>
+                <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Síguenos</h4>
+                <div class="flex flex-col gap-4">
+                    <a href="#" class="group flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl transition group-hover:bg-puntofit-red group-hover:scale-110">
+                            <i class="fab fa-instagram"></i>
+                        </div>
+                        <span class="text-gray-400 font-semibold transition group-hover:text-white">Instagram</span>
+                    </a>
+                    <a href="#" class="group flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl transition group-hover:bg-puntofit-red group-hover:scale-110">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <span class="text-gray-400 font-semibold transition group-hover:text-white">Facebook</span>
+                    </a>
+                    <a href="#" class="group flex items-center gap-4">
+                        <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl transition group-hover:bg-puntofit-red group-hover:scale-110">
+                            <i class="fab fa-tiktok"></i>
+                        </div>
+                        <span class="text-gray-400 font-semibold transition group-hover:text-white">TikTok</span>
+                    </a>
+                </div>
+            </div>
         </div>
         <div class="container mx-auto px-4 mt-16 pt-8 border-t border-white/10 text-center text-sm text-gray-500 italic">
             © 2024 PuntoFit Maracaibo. Hecho para campeones.
         </div>
     </footer>
+
+    <!-- Modal de Ubicación -->
+    <div id="location-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeLocationModal()"></div>
+        <div class="location-modal-content relative bg-white rounded-2xl w-full max-w-lg shadow-2xl">
+            <div class="flex items-center justify-between px-6 py-4 border-b">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-red-50 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-map-marker-alt text-puntofit-red"></i>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-gray-900 uppercase tracking-tight">Nuestra Ubicación</h3>
+                </div>
+                <button type="button" onclick="closeLocationModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:text-puntofit-red text-xl transition" aria-label="Cerrar">&times;</button>
+            </div>
+            <div class="location-map-wrap">
+                <iframe
+                    src="https://maps.google.com/maps?q=Calle+72+con+Avenida+10,+Maracaibo,+Venezuela&output=embed&hl=es&z=16"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Ubicación PuntoFit Maracaibo">
+                </iframe>
+            </div>
+            <div class="bg-gray-50 px-6 py-4 rounded-b-2xl">
+                <p class="font-bold text-gray-900 mb-1">
+                    <i class="fas fa-map-marker-alt text-puntofit-red mr-2"></i>Calle 72 con Av. 10, Maracaibo, Zulia.
+                </p>
+                <p class="text-sm text-gray-500 ml-5">
+                    <i class="fas fa-clock text-puntofit-red mr-2"></i>Lun – Sáb: 8:00 AM – 7:00 PM
+                </p>
+            </div>
+        </div>
+    </div>
 
     <script src="js/common.js"></script>
     <script src="js/products-data.js"></script>

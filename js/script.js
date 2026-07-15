@@ -1,3 +1,34 @@
+const heroSlides = [
+    {
+        url: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Equipos de gimnasio PuntoFit'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1581009137042-c552e485697a?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Entrenamiento de fuerza'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1593079831268-3381b0f6f928?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Suplementos deportivos PuntoFit'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Atleta en pleno rendimiento'
+    }
+];
+
+function buildHeroCarousel() {
+    const container = document.querySelector('.hero-carousel__slides');
+    if (!container) return;
+
+    container.innerHTML = heroSlides.map((slide, i) =>
+        `<div class="hero-carousel__slide${i === 0 ? ' active' : ''}">
+            <img src="${slide.url}" alt="${slide.alt}"
+                 onerror="this.style.display='none';this.closest('.hero-carousel__slide').classList.add('hero-carousel__slide--fallback')">
+        </div>`
+    ).join('');
+}
+
 let currentHeroSlide = 0;
 
 function goToHeroSlide(index) {
@@ -82,6 +113,7 @@ function renderBestsellers() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    buildHeroCarousel();
     initCart();
     updateHeaderOnScroll();
     window.addEventListener('scroll', updateHeaderOnScroll);
@@ -91,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+        closeLocationModal();
         closeCategoryModal();
         closeProductModal();
     }

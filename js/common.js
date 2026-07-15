@@ -46,3 +46,17 @@ function closeMobileMenu() {
 }
 
 document.addEventListener('DOMContentLoaded', initDarkMode);
+
+function openLocationModal() {
+    const modal = document.getElementById('location-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLocationModal() {
+    const modal = document.getElementById('location-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
