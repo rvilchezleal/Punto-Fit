@@ -90,6 +90,21 @@ function toggleFaq(button) {
 
 window.toggleFaq = toggleFaq;
 
+// ── MODAL CONTACTO ───────────────────────────────────────
+function openContactModal() {
+    const modal = document.getElementById('contact-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeContactModal() {
+    const modal = document.getElementById('contact-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
 // ── MODAL UBICACIÓN ───────────────────────────────────────
 function openLocationModal() {
     const modal = document.getElementById('location-modal');

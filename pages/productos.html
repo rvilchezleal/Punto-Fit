@@ -26,7 +26,7 @@
                     <i class="fas fa-question-circle text-puntofit-red"></i>
                     FAQ
                 </button>
-                <a href="../index.html#contacto" class="hover:text-puntofit-red transition">CONTÁCTANOS</a>
+                <button type="button" onclick="openContactModal()" class="hover:text-puntofit-red transition">CONTÁCTANOS</button>
             </div>
 
             <div class="flex items-center space-x-3 md:space-x-4">
@@ -60,7 +60,7 @@
                 <i class="fas fa-question-circle text-puntofit-red text-xs"></i>
                 FAQ
             </button>
-            <a href="../index.html#contacto" onclick="closeMobileMenu()" class="py-3 hover:text-puntofit-red transition">CONTÁCTANOS</a>
+            <button type="button" onclick="closeMobileMenu(); openContactModal()" class="text-left py-3 hover:text-puntofit-red transition">CONTÁCTANOS</button>
         </div>
     </div>
 
@@ -253,6 +253,64 @@
         </div>
     </div>
 
+    <!-- Modal de Contacto -->
+    <div id="contact-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/60" onclick="closeContactModal()"></div>
+        <div class="contact-modal-content relative bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden">
+
+            <div class="bg-puntofit-red px-6 py-5 text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                        <i class="fas fa-headset text-xl"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-extrabold uppercase tracking-tight">Contáctanos</h3>
+                        <p class="text-red-200 text-xs">Estamos para ayudarte</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeContactModal()" class="w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 text-white text-xl transition" aria-label="Cerrar">&times;</button>
+            </div>
+
+            <div class="p-6 space-y-5">
+                <div class="bg-gray-50 rounded-xl p-4 text-center">
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Teléfono</p>
+                    <p class="text-2xl font-black text-gray-900 mb-3">+58 412-1234567</p>
+                    <div class="flex gap-3 justify-center">
+                        <a href="tel:+584121234567" class="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold text-sm py-2 px-4 rounded-full transition">
+                            <i class="fas fa-phone"></i> Llamar
+                        </a>
+                        <a href="https://wa.me/584121234567" target="_blank" rel="noopener" class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold text-sm py-2 px-4 rounded-full transition">
+                            <i class="fab fa-whatsapp"></i> WhatsApp
+                        </a>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3 text-center">Síguenos</p>
+                    <div class="grid grid-cols-3 gap-3">
+                        <a href="#" class="flex flex-col items-center gap-2 p-3 rounded-xl text-white transition hover:opacity-85" style="background: linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045)">
+                            <i class="fab fa-instagram text-2xl"></i>
+                            <span class="text-xs font-bold">Instagram</span>
+                        </a>
+                        <a href="#" class="flex flex-col items-center gap-2 p-3 rounded-xl bg-[#1877F2] text-white hover:opacity-85 transition">
+                            <i class="fab fa-facebook-f text-2xl"></i>
+                            <span class="text-xs font-bold">Facebook</span>
+                        </a>
+                        <a href="#" class="flex flex-col items-center gap-2 p-3 rounded-xl bg-black text-white hover:opacity-85 transition">
+                            <i class="fab fa-tiktok text-2xl"></i>
+                            <span class="text-xs font-bold">TikTok</span>
+                        </a>
+                    </div>
+                </div>
+
+                <p class="text-center text-sm text-gray-400">
+                    <i class="fas fa-clock text-puntofit-red mr-1"></i>
+                    Lun – Sáb: 8:00 AM – 7:00 PM
+                </p>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/common.js"></script>
     <script src="../js/products-data.js"></script>
     <script src="../js/cart.js"></script>
@@ -266,8 +324,10 @@
     <script>
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
+                closeContactModal();
                 closeLocationModal();
                 closeProductModal();
+                if (typeof cerrarModalFAQ === 'function') cerrarModalFAQ();
             }
         });
 

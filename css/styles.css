@@ -83,6 +83,22 @@ body {
     border: 0;
 }
 
+body.dark-mode .contact-modal-content {
+    background-color: #0b0b0b;
+}
+
+body.dark-mode .contact-modal-content .bg-gray-50 {
+    background-color: #111111;
+}
+
+body.dark-mode .contact-modal-content .text-gray-900 {
+    color: #f9fafb;
+}
+
+body.dark-mode .contact-modal-content .text-gray-400 {
+    color: #6b7280;
+}
+
 body.dark-mode .location-modal-content {
     background-color: #0b0b0b;
     border: 1px solid #222222;
