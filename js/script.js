@@ -8,12 +8,28 @@ const heroSlides = [
         alt: 'Entrenamiento de fuerza'
     },
     {
+        url: 'https://images.unsplash.com/photo-1547592180-85f173990554?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Nutrición deportiva y suplementos'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1549060279-7e168fcee0c2?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Entrenamiento intenso en el gimnasio'
+    },
+    {
         url: 'https://images.unsplash.com/photo-1593079831268-3381b0f6f928?q=80&w=1470&auto=format&fit=crop',
         alt: 'Suplementos deportivos PuntoFit'
     },
     {
         url: 'https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1470&auto=format&fit=crop',
         alt: 'Atleta en pleno rendimiento'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Rutina de fitness profesional'
+    },
+    {
+        url: 'https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=1470&auto=format&fit=crop',
+        alt: 'Sala de pesas y equipos'
     }
 ];
 

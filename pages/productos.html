@@ -18,14 +18,15 @@
                 <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
             </a>
 
-            <div class="hidden md:flex space-x-8 font-semibold text-sm uppercase tracking-wider">
+            <div class="hidden md:flex space-x-5 font-semibold text-sm uppercase tracking-wider">
                 <a href="../index.html#home" class="hover:text-puntofit-red transition">Inicio</a>
                 <a href="productos.html" class="text-puntofit-red transition">Productos</a>
-                <button type="button" onclick="openLocationModal()" class="hover:text-puntofit-red transition">Ubicación</button>
+                <button type="button" onclick="openLocationModal()" class="hover:text-puntofit-red transition">UBICACIÓN</button>
                 <button type="button" onclick="abrirModalFAQ()" class="hover:text-puntofit-red transition flex items-center gap-1">
                     <i class="fas fa-question-circle text-puntofit-red"></i>
                     FAQ
                 </button>
+                <a href="../index.html#contacto" class="hover:text-puntofit-red transition">CONTÁCTANOS</a>
             </div>
 
             <div class="flex items-center space-x-3 md:space-x-4">
@@ -42,9 +43,26 @@
                     <i class="fas fa-shopping-cart text-xl"></i>
                     <span id="cart-count" class="absolute -top-1 -right-1 bg-puntofit-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">0</span>
                 </button>
+                <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Menú">
+                    <i id="mobile-menu-icon" class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
     </nav>
+
+    <!-- Menú móvil -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 shadow-lg z-40 relative">
+        <div class="container mx-auto px-4 py-2 flex flex-col divide-y divide-gray-50 font-semibold text-sm uppercase tracking-wider">
+            <a href="../index.html#home" onclick="closeMobileMenu()" class="py-3 hover:text-puntofit-red transition">Inicio</a>
+            <a href="productos.html" onclick="closeMobileMenu()" class="py-3 text-puntofit-red transition">Productos</a>
+            <button type="button" onclick="closeMobileMenu(); openLocationModal()" class="text-left py-3 hover:text-puntofit-red transition">UBICACIÓN</button>
+            <button type="button" onclick="closeMobileMenu(); abrirModalFAQ()" class="text-left py-3 hover:text-puntofit-red transition flex items-center gap-2">
+                <i class="fas fa-question-circle text-puntofit-red text-xs"></i>
+                FAQ
+            </button>
+            <a href="../index.html#contacto" onclick="closeMobileMenu()" class="py-3 hover:text-puntofit-red transition">CONTÁCTANOS</a>
+        </div>
+    </div>
 
     <main class="container mx-auto px-4 py-12">
         <div class="text-center mb-10">
