@@ -65,18 +65,20 @@
     </div>
 
     <main class="container mx-auto px-4 py-16 md:py-20">
-        <div class="text-center mb-12">
+        <div class="reveal-on-scroll text-center mb-12">
             <h1 class="font-display text-4xl font-black uppercase tracking-tight">Catálogo <span class="text-puntofit-red">PuntoFit</span></h1>
             <p class="text-gray-500 mt-2">Todos nuestros suplementos disponibles en Maracaibo</p>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-3 mb-14">
+        <div class="reveal-on-scroll flex flex-wrap justify-center gap-3 mb-4">
             <button type="button" onclick="filterProducts('all', this)" class="category-btn active px-6 py-2.5 rounded-full border border-puntofit-red bg-puntofit-red text-white font-bold text-sm transition-all duration-200 active:scale-[0.97]">Todos</button>
             <button type="button" onclick="filterProducts('proteina', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Proteínas</button>
             <button type="button" onclick="filterProducts('creatina', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Creatinas</button>
             <button type="button" onclick="filterProducts('aminoacidos', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Aminoácidos</button>
             <button type="button" onclick="filterProducts('pre-workout', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Pre-Entrenos</button>
         </div>
+
+        <p id="product-count" class="text-center text-xs uppercase tracking-wider font-semibold text-gray-400 mb-10"></p>
 
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
     </main>

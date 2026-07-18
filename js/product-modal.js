@@ -77,7 +77,7 @@ function getProductCardHTML(p, { bestseller = false } = {}) {
     const priceRow = `${mobileActions}`;
 
     return `
-        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+        <div class="product-card reveal-on-scroll bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
             ${imageBlock}
             <div class="p-6">
                 <span class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">${p.brand}${bestseller ? ` · ${categoryLabel}` : ''}</span>

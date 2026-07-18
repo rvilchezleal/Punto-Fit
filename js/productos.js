@@ -7,9 +7,29 @@ function renderProducts(filter = 'all') {
     const productList = loadProducts();
     const filtered = filter === 'all' ? productList : productList.filter(p => p.category === filter);
 
+    const countEl = document.getElementById('product-count');
+    if (countEl) {
+        countEl.textContent = filtered.length === 1
+            ? '1 producto encontrado'
+            : `${filtered.length} productos encontrados`;
+    }
+
+    if (filtered.length === 0) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-16">
+                <i class="fas fa-box-open text-4xl text-gray-300 mb-4"></i>
+                <p class="text-gray-500 font-semibold">No encontramos productos en esta categoría todavía.</p>
+                <p class="text-gray-400 text-sm mt-1">Probá con otro filtro o escribinos por WhatsApp para consultar disponibilidad.</p>
+            </div>
+        `;
+        return;
+    }
+
     filtered.forEach(p => {
         grid.innerHTML += getProductCardHTML(p);
     });
+
+    initScrollReveal();
 }
 
 function filterProducts(category, btn) {

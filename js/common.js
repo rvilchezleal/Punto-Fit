@@ -119,3 +119,34 @@ function closeLocationModal() {
     modal.classList.add('hidden');
     document.body.style.overflow = '';
 }
+
+// ── SCROLL REVEAL ─────────────────────────────────────────
+// Revela con fade+slide los elementos .reveal-on-scroll al entrar en viewport.
+// Re-invocable de forma segura: solo observa nodos que aún no fueron marcados.
+let scrollRevealObserver = null;
+
+function initScrollReveal(root = document) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        root.querySelectorAll('.reveal-on-scroll').forEach(el => el.classList.add('revealed'));
+        return;
+    }
+
+    if (!scrollRevealObserver) {
+        scrollRevealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('revealed');
+                    scrollRevealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+    }
+
+    root.querySelectorAll('.reveal-on-scroll:not(.reveal-observed)').forEach((el, i) => {
+        el.classList.add('reveal-observed');
+        el.style.transitionDelay = `${Math.min(i, 6) * 60}ms`;
+        scrollRevealObserver.observe(el);
+    });
+}
+
+window.initScrollReveal = initScrollReveal;

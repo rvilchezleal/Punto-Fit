@@ -9,6 +9,25 @@ body {
     font-family: 'Archivo', 'Inter', sans-serif;
 }
 
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) {
     .hero-carousel__slide {
         transition: none;
@@ -42,16 +61,29 @@ body {
 }
 
 .category-card {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .category-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 16px 32px rgba(220, 38, 38, 0.1);
+    box-shadow: 0 16px 32px rgba(220, 38, 38, 0.18);
+}
+
+.category-card__img {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: scale(1.04);
+}
+
+.category-card:hover .category-card__img {
+    transform: scale(1.12);
+}
+
+.category-card__scrim {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.35) 55%, rgba(0, 0, 0, 0.82) 100%);
 }
 
 .category-card__icon-wrap {
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .category-card:hover .category-card__icon-wrap {
@@ -93,6 +125,13 @@ body {
 
 .hero-carousel__slide--fallback {
     background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+.hero-carousel-card__depth {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.35) 100%);
+    pointer-events: none;
 }
 
 /* Modal de Ubicación */
@@ -310,21 +349,13 @@ body.dark-mode nav a[href*="login.html"] {
     color: #f3f4f6;
 }
 
-body.dark-mode .category-card {
-    background-color: #0b0b0b;
+body.dark-mode #trust-strip {
+    background-color: #000000;
     border-color: #222222;
 }
 
-body.dark-mode .category-card h3 {
-    color: #f9fafb;
-}
-
-body.dark-mode .category-card .text-gray-500 {
-    color: #a3a3a3;
-}
-
-body.dark-mode .category-card .bg-red-50 {
-    background-color: #1a1a1a;
+body.dark-mode #trust-strip .text-gray-600 {
+    color: #d1d5db;
 }
 
 body.dark-mode #categorias .text-gray-500 {

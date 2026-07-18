@@ -135,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateHeaderOnScroll);
     initHeroCarousel();
     renderBestsellers();
+    initScrollReveal();
 });
 
 document.addEventListener('keydown', (e) => {

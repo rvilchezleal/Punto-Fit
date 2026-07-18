@@ -64,61 +64,92 @@
         </div>
     </div>
 
-    <section id="home" class="hero-carousel min-h-[520px] md:h-[600px] relative overflow-hidden flex items-center justify-center text-center text-white px-4">
-        <div class="hero-carousel__slides" aria-hidden="true">
-            <!-- Slides generados dinámicamente por script.js desde el array heroSlides -->
+    <section id="home" class="relative bg-gray-950 overflow-hidden">
+        <div class="container mx-auto px-4 py-20 lg:py-28 grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-16 items-center">
+            <div class="text-center lg:text-left order-2 lg:order-1">
+                <!-- Saludo personalizado (visible solo si hay sesión) -->
+                <p id="hero-saludo" class="hidden text-white/70 text-lg mb-3 italic font-light"></p>
+                <h2 class="font-display text-5xl md:text-6xl lg:text-7xl font-black mb-5 tracking-tight uppercase leading-[1.05] text-white">Entrena <span class="text-puntofit-red">Sin Límites</span></h2>
+                <p class="text-lg md:text-xl mb-10 font-light italic text-white/80 max-w-md mx-auto lg:mx-0">Los mejores suplementos de Maracaibo al mejor precio. Resultados garantizados.</p>
+                <a href="pages/productos.html" class="font-display inline-block bg-puntofit-red hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 uppercase tracking-widest shadow-lg shadow-black/30">
+                    Ver Catálogo
+                </a>
+            </div>
+            <div class="relative order-1 lg:order-2">
+                <div class="hero-carousel-card relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl shadow-black/50 ring-1 ring-white/10">
+                    <div class="hero-carousel__slides" aria-hidden="true">
+                        <!-- Slides generados dinámicamente por script.js desde el array heroSlides -->
+                    </div>
+                    <div class="hero-carousel-card__depth"></div>
+                </div>
+            </div>
         </div>
-        <div class="hero-carousel__overlay"></div>
-        <div class="relative z-10 max-w-3xl py-16">
-            <!-- Saludo personalizado (visible solo si hay sesión) -->
-            <p id="hero-saludo" class="hidden text-white/80 text-lg mb-3 italic font-light"></p>
-            <h2 class="font-display text-5xl md:text-7xl font-black mb-5 tracking-tight uppercase leading-[1.05]">Entrena <span class="text-puntofit-red">Sin Límites</span></h2>
-            <p class="text-lg md:text-xl mb-10 font-light italic text-white/90 max-w-xl mx-auto">Los mejores suplementos de Maracaibo al mejor precio. Resultados garantizados.</p>
-            <a href="pages/productos.html" class="font-display inline-block bg-puntofit-red hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 uppercase tracking-widest shadow-lg shadow-black/20">
-                Ver Catálogo
-            </a>
+    </section>
+
+    <!-- Franja de confianza -->
+    <section id="trust-strip" class="bg-white border-b border-gray-100">
+        <div class="container mx-auto px-4 py-6 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-x-10 gap-y-3 text-sm font-semibold text-gray-600">
+            <span class="flex items-center gap-2"><i class="fas fa-map-marker-alt text-puntofit-red"></i>Calle 72 con Av. 10, Maracaibo</span>
+            <span class="flex items-center gap-2"><i class="fas fa-clock text-puntofit-red"></i>Lun - Sáb: 8:00 AM - 7:00 PM</span>
+            <button type="button" onclick="openContactModal()" class="flex items-center gap-2 hover:text-puntofit-red transition"><i class="fab fa-whatsapp text-puntofit-red"></i>+58 412-1234567</button>
         </div>
     </section>
 
     <main id="categorias" class="container mx-auto px-4 py-20 md:py-24">
-        <div class="text-center mb-14">
+        <div class="reveal-on-scroll text-center mb-14">
             <h2 class="font-display text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestras <span class="text-puntofit-red">Categorías</span></h2>
             <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Haz clic en cada tipo de suplemento para conocer sus beneficios y cómo usarlo.</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
-            <button type="button" onclick="openCategoryModal('proteina')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
-                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
-                    <i class="fas fa-dumbbell text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
+            <button type="button" onclick="openCategoryModal('proteina')" class="category-card reveal-on-scroll group relative overflow-hidden rounded-2xl shadow-sm text-left h-72">
+                <img src="img/wheyprotein.webp" alt="Proteínas" class="category-card__img absolute inset-0 w-full h-full object-cover">
+                <div class="category-card__scrim absolute inset-0"></div>
+                <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                    <div class="category-card__icon-wrap w-12 h-12 mb-3 rounded-full bg-puntofit-red flex items-center justify-center">
+                        <i class="fas fa-dumbbell text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-1">Proteínas</h3>
+                    <p class="text-sm text-white/80">Recuperación y crecimiento muscular</p>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Proteínas</h3>
-                <p class="text-sm text-gray-500">Recuperación y crecimiento muscular</p>
             </button>
-            <button type="button" onclick="openCategoryModal('creatina')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
-                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
-                    <i class="fas fa-bolt text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
+            <button type="button" onclick="openCategoryModal('creatina')" class="category-card reveal-on-scroll group relative overflow-hidden rounded-2xl shadow-sm text-left h-72">
+                <img src="img/cratina.jpg" alt="Creatinas" class="category-card__img absolute inset-0 w-full h-full object-cover">
+                <div class="category-card__scrim absolute inset-0"></div>
+                <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                    <div class="category-card__icon-wrap w-12 h-12 mb-3 rounded-full bg-puntofit-red flex items-center justify-center">
+                        <i class="fas fa-bolt text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-1">Creatinas</h3>
+                    <p class="text-sm text-white/80">Fuerza y rendimiento explosivo</p>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Creatinas</h3>
-                <p class="text-sm text-gray-500">Fuerza y rendimiento explosivo</p>
             </button>
-            <button type="button" onclick="openCategoryModal('aminoacidos')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
-                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
-                    <i class="fas fa-flask text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
+            <button type="button" onclick="openCategoryModal('aminoacidos')" class="category-card reveal-on-scroll group relative overflow-hidden rounded-2xl shadow-sm text-left h-72">
+                <img src="img/bcaa.png" alt="Aminoácidos" class="category-card__img absolute inset-0 w-full h-full object-cover">
+                <div class="category-card__scrim absolute inset-0"></div>
+                <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                    <div class="category-card__icon-wrap w-12 h-12 mb-3 rounded-full bg-puntofit-red flex items-center justify-center">
+                        <i class="fas fa-flask text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-1">Aminoácidos</h3>
+                    <p class="text-sm text-white/80">Recuperación y resistencia</p>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Aminoácidos</h3>
-                <p class="text-sm text-gray-500">Recuperación y resistencia</p>
             </button>
-            <button type="button" onclick="openCategoryModal('pre-workout')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
-                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
-                    <i class="fas fa-fire text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
+            <button type="button" onclick="openCategoryModal('pre-workout')" class="category-card reveal-on-scroll group relative overflow-hidden rounded-2xl shadow-sm text-left h-72">
+                <img src="img/prework.webp" alt="Pre-Entrenos" class="category-card__img absolute inset-0 w-full h-full object-cover">
+                <div class="category-card__scrim absolute inset-0"></div>
+                <div class="relative h-full flex flex-col justify-end p-6 text-white">
+                    <div class="category-card__icon-wrap w-12 h-12 mb-3 rounded-full bg-puntofit-red flex items-center justify-center">
+                        <i class="fas fa-fire text-lg"></i>
+                    </div>
+                    <h3 class="font-display text-xl font-bold mb-1">Pre-Entrenos</h3>
+                    <p class="text-sm text-white/80">Energía y enfoque antes de entrenar</p>
                 </div>
-                <h3 class="text-xl font-bold text-gray-800 mb-2">Pre-Entrenos</h3>
-                <p class="text-sm text-gray-500">Energía y enfoque antes de entrenar</p>
             </button>
         </div>
 
         <section id="mas-vendidos" class="mt-20 pt-20 border-t border-gray-200">
-            <div class="text-center mb-14">
+            <div class="reveal-on-scroll text-center mb-14">
                 <h2 class="font-display text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestros productos <span class="text-puntofit-red">más vendidos</span></h2>
                 <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Los favoritos de nuestros clientes en Maracaibo. Añádelos al carrito al instante.</p>
             </div>
