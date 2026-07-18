@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Productos | PuntoFit</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css">
 </head>
@@ -13,9 +13,9 @@
 
     <nav id="main-header" class="sticky top-0 z-50 bg-white shadow-md border-b-4 border-puntofit-red">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="../index.html" class="flex items-center space-x-2">
-                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
-                <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
+            <a href="../index.html" class="flex items-center space-x-3">
+                <div class="bg-puntofit-red text-white w-10 h-10 flex items-center justify-center rounded-xl font-display font-black italic text-xl tracking-tighter">PF</div>
+                <span class="font-display text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
             </a>
 
             <div class="hidden md:flex space-x-5 font-semibold text-sm uppercase tracking-wider">
@@ -64,18 +64,18 @@
         </div>
     </div>
 
-    <main class="container mx-auto px-4 py-12">
-        <div class="text-center mb-10">
-            <h1 class="text-4xl font-black uppercase tracking-tight">Catálogo <span class="text-puntofit-red">PuntoFit</span></h1>
+    <main class="container mx-auto px-4 py-16 md:py-20">
+        <div class="text-center mb-12">
+            <h1 class="font-display text-4xl font-black uppercase tracking-tight">Catálogo <span class="text-puntofit-red">PuntoFit</span></h1>
             <p class="text-gray-500 mt-2">Todos nuestros suplementos disponibles en Maracaibo</p>
         </div>
 
-        <div class="flex flex-wrap justify-center gap-4 mb-12">
-            <button type="button" onclick="filterProducts('all', this)" class="category-btn active px-6 py-2 rounded-full border-2 border-puntofit-red bg-puntofit-red text-white font-bold transition">Todos</button>
-            <button type="button" onclick="filterProducts('proteina', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Proteínas</button>
-            <button type="button" onclick="filterProducts('creatina', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Creatinas</button>
-            <button type="button" onclick="filterProducts('aminoacidos', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Aminoácidos</button>
-            <button type="button" onclick="filterProducts('pre-workout', this)" class="category-btn px-6 py-2 rounded-full border-2 border-puntofit-red text-puntofit-red font-bold hover:bg-puntofit-red hover:text-white transition">Pre-Entrenos</button>
+        <div class="flex flex-wrap justify-center gap-3 mb-14">
+            <button type="button" onclick="filterProducts('all', this)" class="category-btn active px-6 py-2.5 rounded-full border border-puntofit-red bg-puntofit-red text-white font-bold text-sm transition-all duration-200 active:scale-[0.97]">Todos</button>
+            <button type="button" onclick="filterProducts('proteina', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Proteínas</button>
+            <button type="button" onclick="filterProducts('creatina', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Creatinas</button>
+            <button type="button" onclick="filterProducts('aminoacidos', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Aminoácidos</button>
+            <button type="button" onclick="filterProducts('pre-workout', this)" class="category-btn px-6 py-2.5 rounded-full border border-puntofit-red text-puntofit-red font-bold text-sm hover:bg-puntofit-red hover:text-white transition-all duration-200 active:scale-[0.97]">Pre-Entrenos</button>
         </div>
 
         <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
@@ -87,7 +87,7 @@
         <div class="relative bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden max-h-[88vh] flex flex-col">
             <div class="bg-puntofit-red px-6 py-4 flex items-center justify-between shrink-0">
                 <div>
-                    <p class="text-white font-black text-lg">Preguntas Frecuentes</p>
+                    <p class="font-display text-white font-black text-lg">Preguntas Frecuentes</p>
                     <p class="text-red-200 text-xs">Resolvemos tus dudas sobre compras, envíos y suplementos</p>
                 </div>
                 <button onclick="cerrarModalFAQ()" class="text-white/70 hover:text-white text-2xl leading-none">&times;</button>
@@ -190,7 +190,7 @@
     <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden transition-opacity"></div>
     <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[70] translate-x-full cart-sidebar flex flex-col shadow-2xl">
         <div class="p-6 border-b flex justify-between items-center bg-puntofit-red text-white">
-            <h3 class="text-xl font-bold uppercase tracking-tighter">Tu Pedido</h3>
+            <h3 class="font-display text-xl font-bold uppercase tracking-tighter">Tu Pedido</h3>
             <button type="button" onclick="toggleCart()" class="text-2xl">&times;</button>
         </div>
         <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm">
@@ -201,18 +201,18 @@
                 <span class="text-lg font-bold">Total:</span>
                 <span id="cart-total" class="text-2xl font-extrabold text-puntofit-red">$0.00</span>
             </div>
-            <button type="button" onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 mb-2">
+            <button type="button" onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 shadow-lg flex items-center justify-center space-x-2 mb-2">
                 <i class="fab fa-whatsapp text-xl"></i>
                 <span>PEDIR POR WHATSAPP</span>
             </button>
-            <button type="button" onclick="pagarConPaypalDesdeCarrito()" class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087] font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+            <button type="button" onclick="pagarConPaypalDesdeCarrito()" class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087] font-bold py-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 shadow-lg flex items-center justify-center space-x-2">
                 <i class="fab fa-paypal text-xl"></i>
                 <span>PAGAR CON PAYPAL</span>
             </button>
         </div>
     </div>
 
-    <footer class="bg-gray-900 text-white py-8 mt-8">
+    <footer class="bg-gray-900 text-white py-10 mt-8">
         <div class="container mx-auto px-4 text-center">
             <a href="../index.html" class="text-gray-400 hover:text-white transition text-sm">
                 <i class="fas fa-arrow-left mr-2"></i>Volver al inicio
@@ -229,7 +229,7 @@
                     <div class="w-9 h-9 bg-red-50 rounded-xl flex items-center justify-center">
                         <i class="fas fa-map-marker-alt text-puntofit-red"></i>
                     </div>
-                    <h3 class="text-lg font-extrabold text-gray-900 uppercase tracking-tight">Nuestra Ubicación</h3>
+                    <h3 class="font-display text-lg font-extrabold text-gray-900 uppercase tracking-tight">Nuestra Ubicación</h3>
                 </div>
                 <button type="button" onclick="closeLocationModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:text-puntofit-red text-xl transition" aria-label="Cerrar">&times;</button>
             </div>
@@ -264,7 +264,7 @@
                         <i class="fas fa-headset text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg font-extrabold uppercase tracking-tight">Contáctanos</h3>
+                        <h3 class="font-display text-lg font-extrabold uppercase tracking-tight">Contáctanos</h3>
                         <p class="text-red-200 text-xs">Estamos para ayudarte</p>
                     </div>
                 </div>

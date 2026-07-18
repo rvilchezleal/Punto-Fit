@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar sesión | PuntoFit</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <!-- Supabase -->
@@ -17,9 +17,9 @@
 
     <nav class="bg-white shadow-md border-b-4 border-puntofit-red">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="../index.html" class="flex items-center space-x-2">
-                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
-                <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
+            <a href="../index.html" class="flex items-center space-x-3">
+                <div class="bg-puntofit-red text-white w-10 h-10 flex items-center justify-center rounded-xl font-display font-black italic text-xl tracking-tighter">PF</div>
+                <span class="font-display text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
             </a>
             <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 text-gray-700 hover:text-puntofit-red transition" aria-label="Cambiar modo oscuro">
                 <i id="theme-icon" class="fas fa-moon text-xl"></i>
@@ -27,10 +27,10 @@
         </div>
     </nav>
 
-    <main class="auth-page min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-12">
-        <div class="auth-card w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-8">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-black uppercase tracking-tight">Iniciar sesión</h1>
+    <main class="auth-page min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-16">
+        <div class="auth-card w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-100 p-9">
+            <div class="text-center mb-9">
+                <h1 class="font-display text-3xl font-black uppercase tracking-tight">Iniciar sesión</h1>
                 <p class="text-gray-500 mt-2">Accede a tu cuenta PuntoFit</p>
             </div>
 
@@ -40,12 +40,12 @@
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Correo electrónico</label>
                     <input type="email" id="email" name="email" required placeholder="tu@email.com"
-                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition">
+                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition-all duration-200">
                 </div>
                 <div>
                     <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Contraseña</label>
                     <input type="password" id="password" name="password" required placeholder="••••••••"
-                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition">
+                        class="auth-input w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-puntofit-red focus:ring-2 focus:ring-red-100 transition-all duration-200">
                 </div>
                 <div class="flex items-center justify-between text-sm">
                     <label class="flex items-center gap-2 text-gray-600 cursor-pointer">
@@ -54,7 +54,7 @@
                     </label>
                     <a href="#" class="text-puntofit-red font-semibold hover:underline">¿Olvidaste tu contraseña?</a>
                 </div>
-                <button type="submit" class="w-full bg-puntofit-red hover:bg-red-700 text-white font-bold py-3 rounded-xl transition uppercase tracking-wider">
+                <button type="submit" class="font-display w-full bg-puntofit-red hover:bg-red-700 text-white font-bold py-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 uppercase tracking-wider">
                     Entrar
                 </button>
             </form>

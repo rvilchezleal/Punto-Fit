@@ -5,6 +5,16 @@ body {
     transition: background-color 0.25s ease, color 0.25s ease;
 }
 
+.font-display {
+    font-family: 'Archivo', 'Inter', sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-carousel__slide {
+        transition: none;
+    }
+}
+
 #main-header {
     transition: background-color 0.25s ease, backdrop-filter 0.25s ease, box-shadow 0.25s ease;
 }
@@ -21,9 +31,31 @@ body {
 .text-puntofit-red { color: #dc2626; }
 .border-puntofit-red { border-color: #dc2626; }
 
+.product-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.2s ease;
+}
+
 .product-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(220, 38, 38, 0.1);
+    box-shadow: 0 16px 32px rgba(220, 38, 38, 0.12);
+    border-color: transparent;
+}
+
+.category-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(220, 38, 38, 0.1);
+}
+
+.category-card__icon-wrap {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+}
+
+.category-card:hover .category-card__icon-wrap {
+    transform: scale(1.08);
 }
 
 .cart-sidebar {
@@ -183,10 +215,6 @@ body.dark-mode main {
 body.dark-mode .product-card {
     background-color: #0b0b0b;
     border-color: #222222;
-}
-
-.product-card {
-    border-color: #d1d5db;
 }
 
 body.dark-mode .product-card h3 {
@@ -375,6 +403,7 @@ body.dark-mode .faq-item--open {
 }
 
 .product-modal__title {
+    font-family: 'Archivo', 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 800;
     color: #111827;
@@ -470,6 +499,7 @@ body.dark-mode .faq-item--open {
 }
 
 .category-modal__title {
+    font-family: 'Archivo', 'Inter', sans-serif;
     font-size: 1.5rem;
     font-weight: 800;
     text-transform: uppercase;

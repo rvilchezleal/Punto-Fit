@@ -47,11 +47,11 @@ function getProductCardHTML(p, { bestseller = false } = {}) {
         ? '<span class="absolute top-3 left-3 bg-puntofit-red text-white text-[10px] font-bold uppercase px-2 py-1 rounded-full tracking-wider">Más vendido</span>'
         : '';
 
-    const hoverOverlay = `<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
-                <button type="button" onclick="openProductModal(${p.id})" class="bg-white text-puntofit-red font-bold py-2 px-4 rounded-full text-sm transition">
+    const hoverOverlay = `<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
+                <button type="button" onclick="openProductModal(${p.id})" class="bg-white text-puntofit-red font-bold py-2 px-4 rounded-full text-sm transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98]">
                     <i class="fas fa-info-circle mr-1"></i>Info
                 </button>
-                <button type="button" onclick="addToCart(${p.id})" class="bg-puntofit-red text-white font-bold py-2 px-4 rounded-full text-sm transition">
+                <button type="button" onclick="addToCart(${p.id})" class="bg-puntofit-red text-white font-bold py-2 px-4 rounded-full text-sm transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.98]">
                     <i class="fas fa-cart-plus mr-1"></i>Añadir
                 </button>
            </div>`;
@@ -63,12 +63,12 @@ function getProductCardHTML(p, { bestseller = false } = {}) {
            </div>`;
 
     const mobileActions = `<div class="flex justify-between items-center">
-                <span class="text-2xl font-black text-puntofit-red">$${p.price.toFixed(2)}</span>
+                <span class="font-display text-2xl font-black text-puntofit-red">$${p.price.toFixed(2)}</span>
                 <div class="flex gap-2 md:hidden">
-                    <button type="button" onclick="openProductModal(${p.id})" class="border-2 border-puntofit-red text-puntofit-red p-2 rounded-lg">
+                    <button type="button" onclick="openProductModal(${p.id})" class="border border-puntofit-red text-puntofit-red p-2 rounded-xl active:scale-[0.96] transition-transform">
                         <i class="fas fa-info-circle"></i>
                     </button>
-                    <button type="button" onclick="addToCart(${p.id})" class="bg-puntofit-red text-white p-2 rounded-lg">
+                    <button type="button" onclick="addToCart(${p.id})" class="bg-puntofit-red text-white p-2 rounded-xl active:scale-[0.96] transition-transform">
                         <i class="fas fa-plus"></i>
                     </button>
                 </div>
@@ -77,11 +77,11 @@ function getProductCardHTML(p, { bestseller = false } = {}) {
     const priceRow = `${mobileActions}`;
 
     return `
-        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-300 transition duration-300">
+        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100">
             ${imageBlock}
             <div class="p-6">
                 <span class="text-[10px] uppercase font-bold text-gray-400 tracking-widest">${p.brand}${bestseller ? ` · ${categoryLabel}` : ''}</span>
-                <h3 class="text-lg font-bold text-gray-800 mb-2 truncate cursor-pointer hover:text-puntofit-red transition" onclick="openProductModal(${p.id})">${p.name}</h3>
+                <h3 class="font-display text-lg font-bold text-gray-800 mb-2 truncate cursor-pointer hover:text-puntofit-red transition-colors" onclick="openProductModal(${p.id})">${p.name}</h3>
                 ${priceRow}
             </div>
         </div>

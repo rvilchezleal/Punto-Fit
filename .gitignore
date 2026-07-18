@@ -1,2 +1,7 @@
 js/supabase-config.js
 Punto-Fit/
+
+# Skill installs (npx skills) - use absolute-path symlinks local to this machine
+.claude/
+.agents/
+skills-lock.json

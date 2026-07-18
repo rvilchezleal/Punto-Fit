@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PuntoFit | Suplementos Deportivos Maracaibo</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -13,9 +13,9 @@
 
     <nav id="main-header" class="sticky top-0 z-50 bg-white shadow-md border-b-4 border-puntofit-red">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <div class="bg-puntofit-red text-white p-2 rounded-lg font-black italic text-2xl tracking-tighter">PF</div>
-                <span class="text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
+            <a href="index.html" class="flex items-center space-x-3">
+                <div class="bg-puntofit-red text-white w-10 h-10 flex items-center justify-center rounded-xl font-display font-black italic text-xl tracking-tighter">PF</div>
+                <span class="font-display text-2xl font-extrabold tracking-tight text-gray-900">PUNTO<span class="text-puntofit-red">FIT</span></span>
             </a>
 
             <div class="hidden md:flex space-x-5 font-semibold text-sm uppercase tracking-wider">
@@ -64,69 +64,69 @@
         </div>
     </div>
 
-    <section id="home" class="hero-carousel h-[500px] relative overflow-hidden flex items-center justify-center text-center text-white px-4">
+    <section id="home" class="hero-carousel min-h-[520px] md:h-[600px] relative overflow-hidden flex items-center justify-center text-center text-white px-4">
         <div class="hero-carousel__slides" aria-hidden="true">
             <!-- Slides generados dinámicamente por script.js desde el array heroSlides -->
         </div>
         <div class="hero-carousel__overlay"></div>
-        <div class="relative z-10 max-w-3xl">
+        <div class="relative z-10 max-w-3xl py-16">
             <!-- Saludo personalizado (visible solo si hay sesión) -->
-            <p id="hero-saludo" class="hidden text-white/80 text-lg mb-2 italic font-light"></p>
-            <h2 class="text-5xl md:text-7xl font-black mb-4 tracking-tight uppercase">Entrena <span class="text-puntofit-red">Sin Límites</span></h2>
-            <p class="text-lg md:text-xl mb-8 font-light italic">Los mejores suplementos de Maracaibo al mejor precio. Resultados garantizados.</p>
-            <a href="pages/productos.html" class="bg-puntofit-red hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all transform hover:scale-105 uppercase tracking-widest shadow-lg">
+            <p id="hero-saludo" class="hidden text-white/80 text-lg mb-3 italic font-light"></p>
+            <h2 class="font-display text-5xl md:text-7xl font-black mb-5 tracking-tight uppercase leading-[1.05]">Entrena <span class="text-puntofit-red">Sin Límites</span></h2>
+            <p class="text-lg md:text-xl mb-10 font-light italic text-white/90 max-w-xl mx-auto">Los mejores suplementos de Maracaibo al mejor precio. Resultados garantizados.</p>
+            <a href="pages/productos.html" class="font-display inline-block bg-puntofit-red hover:bg-red-700 text-white font-bold py-4 px-10 rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 uppercase tracking-widest shadow-lg shadow-black/20">
                 Ver Catálogo
             </a>
         </div>
     </section>
 
-    <main id="categorias" class="container mx-auto px-4 py-12">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestras <span class="text-puntofit-red">Categorías</span></h2>
+    <main id="categorias" class="container mx-auto px-4 py-20 md:py-24">
+        <div class="text-center mb-14">
+            <h2 class="font-display text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestras <span class="text-puntofit-red">Categorías</span></h2>
             <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Haz clic en cada tipo de suplemento para conocer sus beneficios y cómo usarlo.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <button type="button" onclick="openCategoryModal('proteina')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
-                    <i class="fas fa-dumbbell text-2xl text-puntofit-red group-hover:text-white transition"></i>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+            <button type="button" onclick="openCategoryModal('proteina')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
+                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
+                    <i class="fas fa-dumbbell text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Proteínas</h3>
                 <p class="text-sm text-gray-500">Recuperación y crecimiento muscular</p>
             </button>
-            <button type="button" onclick="openCategoryModal('creatina')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
-                    <i class="fas fa-bolt text-2xl text-puntofit-red group-hover:text-white transition"></i>
+            <button type="button" onclick="openCategoryModal('creatina')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
+                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
+                    <i class="fas fa-bolt text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Creatinas</h3>
                 <p class="text-sm text-gray-500">Fuerza y rendimiento explosivo</p>
             </button>
-            <button type="button" onclick="openCategoryModal('aminoacidos')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
-                    <i class="fas fa-flask text-2xl text-puntofit-red group-hover:text-white transition"></i>
+            <button type="button" onclick="openCategoryModal('aminoacidos')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
+                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
+                    <i class="fas fa-flask text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Aminoácidos</h3>
                 <p class="text-sm text-gray-500">Recuperación y resistencia</p>
             </button>
-            <button type="button" onclick="openCategoryModal('pre-workout')" class="category-card group bg-white border-2 border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center transition shadow-sm hover:shadow-lg">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center transition">
-                    <i class="fas fa-fire text-2xl text-puntofit-red group-hover:text-white transition"></i>
+            <button type="button" onclick="openCategoryModal('pre-workout')" class="category-card group bg-white border border-gray-100 hover:border-puntofit-red rounded-2xl p-8 text-center shadow-sm">
+                <div class="category-card__icon-wrap w-16 h-16 mx-auto mb-4 rounded-full bg-red-50 group-hover:bg-puntofit-red flex items-center justify-center">
+                    <i class="fas fa-fire text-2xl text-puntofit-red group-hover:text-white transition-colors"></i>
                 </div>
                 <h3 class="text-xl font-bold text-gray-800 mb-2">Pre-Entrenos</h3>
                 <p class="text-sm text-gray-500">Energía y enfoque antes de entrenar</p>
             </button>
         </div>
 
-        <section id="mas-vendidos" class="mt-16 pt-16 border-t border-gray-200">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestros productos <span class="text-puntofit-red">más vendidos</span></h2>
+        <section id="mas-vendidos" class="mt-20 pt-20 border-t border-gray-200">
+            <div class="text-center mb-14">
+                <h2 class="font-display text-3xl md:text-4xl font-black uppercase tracking-tight">Nuestros productos <span class="text-puntofit-red">más vendidos</span></h2>
                 <p class="text-gray-500 mt-3 max-w-2xl mx-auto">Los favoritos de nuestros clientes en Maracaibo. Añádelos al carrito al instante.</p>
             </div>
             <div id="bestsellers-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"></div>
         </section>
 
-        <div class="text-center mt-12">
-            <a href="pages/productos.html" class="inline-flex items-center gap-2 bg-puntofit-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition uppercase tracking-wider text-sm">
+        <div class="text-center mt-14">
+            <a href="pages/productos.html" class="font-display inline-flex items-center gap-2 bg-puntofit-red hover:bg-red-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 uppercase tracking-wider text-sm">
                 <i class="fas fa-store"></i>
                 Ver catálogo completo
             </a>
@@ -140,7 +140,7 @@
         <div class="relative bg-white rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden max-h-[88vh] flex flex-col">
             <div class="bg-puntofit-red px-6 py-4 flex items-center justify-between shrink-0">
                 <div>
-                    <p class="text-white font-black text-lg">Preguntas Frecuentes</p>
+                    <p class="font-display text-white font-black text-lg">Preguntas Frecuentes</p>
                     <p class="text-red-200 text-xs">Resolvemos tus dudas sobre compras, envíos y suplementos</p>
                 </div>
                 <button onclick="cerrarModalFAQ()" class="text-white/70 hover:text-white text-2xl leading-none">&times;</button>
@@ -265,7 +265,7 @@
     <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black bg-opacity-50 z-[60] hidden transition-opacity"></div>
     <div id="cart-sidebar" class="fixed right-0 top-0 h-full w-full max-w-md bg-white z-[70] translate-x-full cart-sidebar flex flex-col shadow-2xl">
         <div class="p-6 border-b flex justify-between items-center bg-puntofit-red text-white">
-            <h3 class="text-xl font-bold uppercase tracking-tighter">Tu Pedido</h3>
+            <h3 class="font-display text-xl font-bold uppercase tracking-tighter">Tu Pedido</h3>
             <button onclick="toggleCart()" class="text-2xl">&times;</button>
         </div>
         <div id="cart-items" class="flex-1 overflow-y-auto p-6 space-y-4 text-sm">
@@ -276,31 +276,31 @@
                 <span class="text-lg font-bold">Total:</span>
                 <span id="cart-total" class="text-2xl font-extrabold text-puntofit-red">$0.00</span>
             </div>
-            <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2 mb-2">
+            <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 shadow-lg flex items-center justify-center space-x-2 mb-2">
                 <i class="fab fa-whatsapp text-xl"></i>
                 <span>PEDIR POR WHATSAPP</span>
             </button>
-            <button onclick="pagarConPaypalDesdeCarrito()" class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087] font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center space-x-2">
+            <button onclick="pagarConPaypalDesdeCarrito()" class="w-full bg-[#FFB700] hover:bg-[#e6a600] text-[#003087] font-bold py-3 rounded-xl transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98] active:translate-y-0 shadow-lg flex items-center justify-center space-x-2">
                 <i class="fab fa-paypal text-xl"></i>
                 <span>PAGAR CON PAYPAL</span>
             </button>
         </div>
     </div>
 
-    <footer id="contacto" class="bg-gray-900 text-white pt-16 pb-8">
-        <div class="container mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+    <footer id="contacto" class="bg-gray-900 text-white pt-20 pb-10">
+        <div class="container mx-auto px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
             <div>
-                <h4 class="text-2xl font-black mb-6">PUNTO<span class="text-puntofit-red">FIT</span></h4>
+                <h4 class="font-display text-2xl font-black mb-6">PUNTO<span class="text-puntofit-red">FIT</span></h4>
                 <p class="text-gray-400 leading-relaxed">La tienda de suplementos #1 en Maracaibo. Calidad certificada y asesoría profesional para que alcances tu mejor versión.</p>
             </div>
             <div>
-                <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Visítanos</h4>
+                <h4 class="font-display text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Visítanos</h4>
                 <p class="text-gray-400 mb-2"><i class="fas fa-map-marker-alt text-puntofit-red mr-2"></i> Calle 72 con Av. 10, Maracaibo, Zulia.</p>
                 <p class="text-gray-400 mb-2"><i class="fas fa-clock text-puntofit-red mr-2"></i> Lun - Sáb: 8:00 AM - 7:00 PM</p>
                 <p class="text-gray-400"><i class="fas fa-phone text-puntofit-red mr-2"></i> +58 412-1234567</p>
             </div>
             <div>
-                <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Información</h4>
+                <h4 class="font-display text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Información</h4>
                 <ul class="text-gray-400 space-y-2">
                     <li><a href="#" class="hover:text-white transition">Envíos a Domicilio (Delivery)</a></li>
                     <li><a href="#" class="hover:text-white transition">Métodos de Pago</a></li>
@@ -308,7 +308,7 @@
                 </ul>
             </div>
             <div>
-                <h4 class="text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Síguenos</h4>
+                <h4 class="font-display text-lg font-bold mb-6 border-b border-puntofit-red pb-2 inline-block">Síguenos</h4>
                 <div class="flex flex-col gap-4">
                     <a href="#" class="group flex items-center gap-4">
                         <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-2xl transition group-hover:bg-puntofit-red group-hover:scale-110">
@@ -345,7 +345,7 @@
                     <div class="w-9 h-9 bg-red-50 rounded-xl flex items-center justify-center">
                         <i class="fas fa-map-marker-alt text-puntofit-red"></i>
                     </div>
-                    <h3 class="text-lg font-extrabold text-gray-900 uppercase tracking-tight">Nuestra Ubicación</h3>
+                    <h3 class="font-display text-lg font-extrabold text-gray-900 uppercase tracking-tight">Nuestra Ubicación</h3>
                 </div>
                 <button type="button" onclick="closeLocationModal()" class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:text-puntofit-red text-xl transition" aria-label="Cerrar">&times;</button>
             </div>
@@ -380,7 +380,7 @@
                         <i class="fas fa-headset text-xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-lg font-extrabold uppercase tracking-tight">Contáctanos</h3>
+                        <h3 class="font-display text-lg font-extrabold uppercase tracking-tight">Contáctanos</h3>
                         <p class="text-red-200 text-xs">Estamos para ayudarte</p>
                     </div>
                 </div>
