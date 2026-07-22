@@ -120,7 +120,7 @@ function checkout() {
     message += `\nTotal: ${document.getElementById('cart-total').innerText}`;
     message += `\n\n¿Tienen disponibilidad y delivery para hoy?`;
 
-    const whatsappUrl = `https://wa.me/584121234567?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/584246893855?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
 }
 

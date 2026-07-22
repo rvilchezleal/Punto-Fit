@@ -120,6 +120,21 @@ function closeLocationModal() {
     document.body.style.overflow = '';
 }
 
+// ── MODAL MÉTODOS DE PAGO (informativo) ──────────────────
+function openPaymentMethodsModal() {
+    const modal = document.getElementById('payment-methods-modal');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closePaymentMethodsModal() {
+    const modal = document.getElementById('payment-methods-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
 // ── SCROLL REVEAL ─────────────────────────────────────────
 // Revela con fade+slide los elementos .reveal-on-scroll al entrar en viewport.
 // Re-invocable de forma segura: solo observa nodos que aún no fueron marcados.

@@ -155,5 +155,6 @@ document.addEventListener('keydown', (e) => {
         closeCategoryModal();
         closeProductModal();
         if (typeof cerrarModalFAQ === 'function') cerrarModalFAQ();
+        if (typeof closePaymentMethodsModal === 'function') closePaymentMethodsModal();
     }
 });
