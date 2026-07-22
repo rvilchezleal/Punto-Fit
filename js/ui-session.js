@@ -273,8 +273,13 @@ window.simularPagoPaypal = async function () {
     }));
 
     cerrarModalPaypal();
+    await procesarPagoPaypal(totalNum, itemsCarrito);
+};
 
-    // Pantalla de procesando
+// Hace la petición asíncrona real a Supabase (guardar el pedido) y recién
+// AHÍ decide qué pantalla mostrar — éxito o error dependen del resultado
+// real de la petición, nunca de un temporizador fijo.
+async function procesarPagoPaypal(totalNum, itemsCarrito) {
     const overlay = document.createElement('div');
     overlay.id = 'paypal-loading';
     overlay.className = 'fixed inset-0 z-[400] flex flex-col items-center justify-center bg-white';
@@ -285,27 +290,30 @@ window.simularPagoPaypal = async function () {
         <p class="text-[#003087] font-semibold">Procesando pago...</p>`;
     document.body.appendChild(overlay);
 
-    // Guardar pedido en Supabase
-    const { data: { session } } = await supabase.auth.getSession();
-    if (session && itemsCarrito.length > 0) {
-        const user = session.user;
+    try {
+        // Guardar pedido en Supabase (asíncrono)
+        const { data: { session } } = await supabase.auth.getSession();
 
-        const { error } = await supabase.from('pedidos').insert({
-            id_usuario:     user.id,
-            items:          itemsCarrito,
-            total:          totalNum,
-            estado:         'completado', // Asumiendo que el enum lo permite
-            fecha:          new Date().toISOString()
-        });
+        if (session && itemsCarrito.length > 0) {
+            const { error } = await supabase.from('pedidos').insert({
+                id_usuario: session.user.id,
+                items:      itemsCarrito,
+                total:      totalNum,
+                estado:     'completado',
+                fecha:      new Date().toISOString()
+            });
 
-        if (error) console.error("Error insertando pedido:", error);
-    }
+            if (error) throw error;
+        }
 
-    setTimeout(() => {
         overlay.remove();
         mostrarExitoPaypal();
-    }, 2500);
-};
+    } catch (err) {
+        console.error('[AJAX] Error al guardar el pedido:', err.message || err);
+        overlay.remove();
+        mostrarErrorPaypal(totalNum, itemsCarrito);
+    }
+}
 
 window.mostrarExitoPaypal = function () {
     const modal = document.createElement('div');
@@ -326,6 +334,46 @@ window.mostrarExitoPaypal = function () {
             </button>
         </div>`;
     document.body.appendChild(modal);
+};
+
+// Estado de error: se muestra solo si la petición a Supabase falló de
+// verdad (red caída, servidor no disponible, etc.), con opción de reintentar
+// la MISMA petición sin perder los datos del pedido.
+window.mostrarErrorPaypal = function (totalNum, itemsCarrito) {
+    const modal = document.createElement('div');
+    modal.id = 'paypal-error-modal';
+    modal.className = 'fixed inset-0 z-[300] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="absolute inset-0 bg-black/60"></div>
+        <div class="relative bg-white rounded-2xl w-full max-w-sm shadow-2xl p-8 text-center">
+            <div class="w-20 h-20 bg-red-50 rounded-full flex items-center
+                        justify-center mx-auto mb-4">
+                <i class="fas fa-times text-4xl text-red-500"></i>
+            </div>
+            <h3 class="text-2xl font-black text-gray-800 mb-2">No se pudo confirmar el pago</h3>
+            <p class="text-gray-500 mb-6">No pudimos conectar con el servidor para registrar tu pedido. Revisá tu conexión e intentá de nuevo.</p>
+            <button onclick="reintentarPagoPaypal()"
+                    class="w-full bg-puntofit-red hover:bg-red-700 text-white font-bold
+                           py-3 rounded-xl transition mb-2">
+                Reintentar
+            </button>
+            <button onclick="document.getElementById('paypal-error-modal').remove()"
+                    class="w-full text-sm text-gray-400 hover:text-gray-600 transition">
+                Cancelar
+            </button>
+        </div>`;
+    modal.dataset.total = totalNum;
+    modal.dataset.items = JSON.stringify(itemsCarrito);
+    document.body.appendChild(modal);
+};
+
+window.reintentarPagoPaypal = async function () {
+    const modal = document.getElementById('paypal-error-modal');
+    if (!modal) return;
+    const totalNum = parseFloat(modal.dataset.total);
+    const itemsCarrito = JSON.parse(modal.dataset.items);
+    modal.remove();
+    await procesarPagoPaypal(totalNum, itemsCarrito);
 };
 
 document.addEventListener('click', (e) => {

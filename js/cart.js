@@ -74,7 +74,7 @@ function updateCartUI() {
         total += item.price * item.quantity;
         html += `
             <div class="flex items-center space-x-4 bg-gray-50 p-3 rounded-xl">
-                <img src="${item.img}" class="w-16 h-16 object-cover rounded-lg" alt="${item.name}">
+                <img src="${getImagePath(item.img)}" class="w-16 h-16 object-cover rounded-lg" alt="${item.name}">
                 <div class="flex-1">
                     <h4 class="font-bold text-gray-800 truncate">${item.name}</h4>
                     <p class="text-puntofit-red font-black">$${(item.price * item.quantity).toFixed(2)}</p>
