@@ -23,8 +23,15 @@ function toggleCart() {
     overlay.classList.toggle('hidden');
 }
 
-function addToCart(id) {
-    const product = loadProducts().find(p => p.id === id);
+async function addToCart(id) {
+    let product;
+    try {
+        const products = await loadProducts();
+        product = products.find(p => p.id === id);
+    } catch {
+        alert('No se pudo agregar el producto. Revisá tu conexión e intentá de nuevo.');
+        return;
+    }
     if (!product) return;
 
     const inCart = cart.find(item => item.id === id);

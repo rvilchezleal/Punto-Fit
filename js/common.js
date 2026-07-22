@@ -150,3 +150,33 @@ function initScrollReveal(root = document) {
 }
 
 window.initScrollReveal = initScrollReveal;
+
+// ── ESTADOS DE CARGA DEL CATÁLOGO (fetch asíncrono a Supabase) ──
+function renderSkeletonCards(count) {
+    return Array.from({ length: count }, () => `
+        <div class="skeleton-card rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+            <div class="skeleton-block h-64"></div>
+            <div class="p-6 space-y-3">
+                <div class="skeleton-block h-3 w-1/3 rounded"></div>
+                <div class="skeleton-block h-5 w-2/3 rounded"></div>
+                <div class="skeleton-block h-6 w-1/4 rounded"></div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderCatalogErrorState(retryFnName, args = '') {
+    return `
+        <div class="col-span-full text-center py-16">
+            <i class="fas fa-wifi text-4xl text-gray-300 mb-4"></i>
+            <p class="text-gray-500 font-semibold">No pudimos cargar el catálogo.</p>
+            <p class="text-gray-400 text-sm mt-1 mb-4">Revisá tu conexión a internet e intentá de nuevo.</p>
+            <button type="button" onclick="${retryFnName}(${args})" class="font-display bg-puntofit-red hover:bg-red-700 text-white font-bold py-2 px-6 rounded-full text-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-[0.98]">
+                Reintentar
+            </button>
+        </div>
+    `;
+}
+
+window.renderSkeletonCards = renderSkeletonCards;
+window.renderCatalogErrorState = renderCatalogErrorState;

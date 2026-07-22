@@ -4,10 +4,19 @@ function getImagePath(src) {
     return `${prefix}${src}`;
 }
 
-function openProductModal(id) {
-    const product = loadProducts().find(p => p.id === id);
+async function openProductModal(id) {
     const modal = document.getElementById('product-modal');
-    if (!product || !modal) return;
+    if (!modal) return;
+
+    let product;
+    try {
+        const products = await loadProducts();
+        product = products.find(p => p.id === id);
+    } catch {
+        alert('No se pudo cargar la información del producto. Revisá tu conexión e intentá de nuevo.');
+        return;
+    }
+    if (!product) return;
 
     const categoryLabel = categoryInfo[product.category]?.title || product.category;
 
@@ -57,7 +66,7 @@ function getProductCardHTML(p, { bestseller = false } = {}) {
            </div>`;
 
     const imageBlock = `<div class="relative group h-64 bg-gray-100 flex items-center justify-center">
-                <img src="${getImagePath(p.img)}" alt="${p.name}" class="w-full h-full object-cover cursor-pointer" onclick="openProductModal(${p.id})">
+                <img src="${getImagePath(p.img)}" alt="${p.name}" loading="lazy" class="w-full h-full object-cover cursor-pointer" onclick="openProductModal(${p.id})">
                 ${hoverOverlay}
                 ${badge}
            </div>`;

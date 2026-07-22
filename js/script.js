@@ -40,6 +40,7 @@ function buildHeroCarousel() {
     container.innerHTML = heroSlides.map((slide, i) =>
         `<div class="hero-carousel__slide${i === 0 ? ' active' : ''}">
             <img src="${slide.url}" alt="${slide.alt}"
+                 ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy" fetchpriority="low"'}
                  onerror="this.style.display='none';this.closest('.hero-carousel__slide').classList.add('hero-carousel__slide--fallback')">
         </div>`
     ).join('');
@@ -119,14 +120,23 @@ function toggleFaq(button) {
     item.classList.toggle('faq-item--open', isOpening);
 }
 
-function renderBestsellers() {
+async function renderBestsellers() {
     const grid = document.getElementById('bestsellers-grid');
     if (!grid) return;
 
-    getBestsellers().forEach(p => {
-        grid.innerHTML += getProductCardHTML(p, { bestseller: true });
-    });
+    grid.innerHTML = renderSkeletonCards(4);
+
+    try {
+        const bestsellers = await getBestsellers();
+        grid.innerHTML = bestsellers.map(p => getProductCardHTML(p, { bestseller: true })).join('');
+    } catch {
+        grid.innerHTML = renderCatalogErrorState('renderBestsellers');
+    }
+
+    initScrollReveal();
 }
+
+window.renderBestsellers = renderBestsellers;
 
 document.addEventListener('DOMContentLoaded', () => {
     buildHeroCarousel();

@@ -1,13 +1,22 @@
-function renderProducts(filter = 'all') {
+async function renderProducts(filter = 'all') {
     const grid = document.getElementById('product-grid');
     if (!grid) return;
 
-    grid.innerHTML = '';
+    const countEl = document.getElementById('product-count');
+    grid.innerHTML = renderSkeletonCards(8);
+    if (countEl) countEl.textContent = 'Cargando catálogo...';
 
-    const productList = loadProducts();
+    let productList;
+    try {
+        productList = await loadProducts();
+    } catch {
+        grid.innerHTML = renderCatalogErrorState('renderProducts', `'${filter}'`);
+        if (countEl) countEl.textContent = '';
+        return;
+    }
+
     const filtered = filter === 'all' ? productList : productList.filter(p => p.category === filter);
 
-    const countEl = document.getElementById('product-count');
     if (countEl) {
         countEl.textContent = filtered.length === 1
             ? '1 producto encontrado'
@@ -25,10 +34,7 @@ function renderProducts(filter = 'all') {
         return;
     }
 
-    filtered.forEach(p => {
-        grid.innerHTML += getProductCardHTML(p);
-    });
-
+    grid.innerHTML = filtered.map(p => getProductCardHTML(p)).join('');
     initScrollReveal();
 }
 
