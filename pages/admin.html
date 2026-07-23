@@ -13,7 +13,6 @@
     <script src="../js/supabase-config.js"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/supabase-client.js"></script>
 </head>
 <body class="admin-body bg-gray-100 text-gray-900">
 
@@ -81,7 +80,7 @@
 
             <!-- Resumen -->
             <section id="section-resumen" class="admin-section hidden">
-                <div class="admin-stats-grid">
+                <div class="admin-stats-grid admin-stats-grid--4col">
                     <article class="admin-stat-card">
                         <div class="admin-stat-card__icon admin-stat-card__icon--green">
                             <i class="fas fa-dollar-sign"></i>
@@ -107,6 +106,16 @@
                         <div>
                             <p class="admin-stat-card__label">Bajo stock</p>
                             <p id="stat-low-stock" class="admin-stat-card__value">0</p>
+                        </div>
+                    </article>
+                    <article class="admin-stat-card">
+                        <div class="admin-stat-card__icon admin-stat-card__icon--blue">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div>
+                            <p class="admin-stat-card__label">Producto más vendido</p>
+                            <p id="stat-best-seller" class="admin-stat-card__value admin-stat-card__value--sm">—</p>
+                            <p id="stat-best-seller-sub" class="admin-table-meta">Aún sin ventas</p>
                         </div>
                     </article>
                 </div>
@@ -140,6 +149,10 @@
                         </div>
                         <div class="admin-panel__body">
                             <canvas id="salesChart" height="80"></canvas>
+                            <div id="salesChartEmpty" class="hidden text-center py-10">
+                                <i class="fas fa-chart-line text-3xl text-gray-300 mb-3"></i>
+                                <p class="admin-empty-note">Aún no hay suficientes pedidos completados para proyectar una tendencia.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -215,7 +228,7 @@
                             <h2 class="admin-panel__title">Pedidos recientes</h2>
                             <p class="admin-panel__desc">Datos en tiempo real desde Supabase. Se actualiza automáticamente.</p>
                         </div>
-                        <button type="button" onclick="refreshPedidos()" class="admin-btn admin-btn--secondary">
+                        <button type="button" onclick="refreshPedidos(event)" class="admin-btn admin-btn--secondary">
                             <i class="fas fa-sync-alt"></i> Actualizar
                         </button>
                     </div>
@@ -244,7 +257,7 @@
                             <h2 class="admin-panel__title">Base de clientes</h2>
                             <p class="admin-panel__desc">Clientes agrupados por historial de compras reales.</p>
                         </div>
-                        <button type="button" onclick="refreshClientes()" class="admin-btn admin-btn--secondary">
+                        <button type="button" onclick="refreshClientes(event)" class="admin-btn admin-btn--secondary">
                             <i class="fas fa-sync-alt"></i> Actualizar
                         </button>
                     </div>
@@ -340,17 +353,5 @@
 
     <script src="../js/products-data.js"></script>
     <script type="module" src="../js/admin.js"></script>
-    <script>
-        // Helpers globales para botones de actualización manual
-        async function refreshPedidos() {
-            const btn = event?.currentTarget;
-            if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
-            // renderOrdersTable está definida en el módulo, se accede vía evento
-            setTimeout(() => window.location.reload(), 100);
-        }
-        async function refreshClientes() {
-            setTimeout(() => window.location.reload(), 100);
-        }
-    </script>
 </body>
 </html>

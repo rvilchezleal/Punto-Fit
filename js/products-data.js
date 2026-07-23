@@ -3,8 +3,12 @@
 // (js/admin.js), en vez de un array fijo. Así lo que se edita en /pages/admin.html
 // se refleja al instante en la tienda pública.
 
-const SUPABASE_URL = 'https://elnxlsydfdndolrcdyri.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbnhsc3lkZmRuZG9scmNkeXJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MjQ2OTMsImV4cCI6MjA5NzMwMDY5M30.wbNAcdOydljDpRGD9QP3KZ9RT7X3WPDTfkCfJTEZ2yc';
+// Prefijo PF_ para no chocar con SUPABASE_URL/SUPABASE_ANON_KEY que ya
+// declara js/supabase-config.js en las páginas que cargan ambos scripts
+// (admin.html, login.html, registro.html) — dos `const` con el mismo
+// nombre en scripts clásicos comparten el mismo scope global y rompen.
+const PF_SUPABASE_URL = 'https://elnxlsydfdndolrcdyri.supabase.co';
+const PF_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVsbnhsc3lkZmRuZG9scmNkeXJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE3MjQ2OTMsImV4cCI6MjA5NzMwMDY5M30.wbNAcdOydljDpRGD9QP3KZ9RT7X3WPDTfkCfJTEZ2yc';
 const PRODUCTS_CACHE_KEY = 'puntofit-products-cache';
 
 const categoryInfo = {
@@ -88,7 +92,7 @@ function mapProductoRow(row) {
 // Para pedir el catálogo hacen falta: la URL del endpoint REST, el
 // verbo HTTP (GET), y las credenciales que exige Supabase (RLS) para
 // autorizar la lectura pública de la tabla `productos`.
-const PRODUCTOS_ENDPOINT = `${SUPABASE_URL}/rest/v1/productos?select=*&order=id.asc`;
+const PRODUCTOS_ENDPOINT = `${PF_SUPABASE_URL}/rest/v1/productos?select=*&order=id.asc`;
 
 // Traduce el código de estado HTTP de la respuesta a un mensaje
 // entendible (rangos vistos en clase: 1xx, 2xx, 3xx, 4xx, 5xx).
@@ -115,8 +119,8 @@ function fetchProductsFromSupabase() {
             method: 'GET',
             dataType: 'json',
             headers: {
-                apikey: SUPABASE_ANON_KEY,
-                Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+                apikey: PF_SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${PF_SUPABASE_ANON_KEY}`
             },
 
             // ── 3. Manejo de la respuesta ─────────────────────────

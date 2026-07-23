@@ -110,7 +110,7 @@ function removeItem(index) {
     updateCartUI();
 }
 
-function checkout() {
+function checkout(metodoPago = null) {
     if (cart.length === 0) return;
 
     let message = "¡Hola PuntoFit Maracaibo! Quiero realizar el siguiente pedido:\n\n";
@@ -118,6 +118,9 @@ function checkout() {
         message += `- ${item.quantity}x ${item.name} ($${item.price})\n`;
     });
     message += `\nTotal: ${document.getElementById('cart-total').innerText}`;
+    if (metodoPago) {
+        message += `\nMétodo de pago: ${metodoPago}`;
+    }
     message += `\n\n¿Tienen disponibilidad y delivery para hoy?`;
 
     const whatsappUrl = `https://wa.me/584246893855?text=${encodeURIComponent(message)}`;

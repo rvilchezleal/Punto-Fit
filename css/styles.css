@@ -857,6 +857,18 @@ body.dark-mode footer.bg-gray-900 {
     margin-bottom: 1.25rem;
 }
 
+@media (min-width: 640px) {
+    .admin-stats-grid--4col {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .admin-stats-grid--4col {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 .admin-stat-card {
     display: flex;
     align-items: center;
@@ -896,6 +908,11 @@ body.dark-mode footer.bg-gray-900 {
 .admin-stat-card__icon--red {
     background: #fee2e2;
     color: #dc2626;
+}
+
+.admin-stat-card__icon--blue {
+    background: #dbeafe;
+    color: #2563eb;
 }
 
 .admin-stat-card__label {

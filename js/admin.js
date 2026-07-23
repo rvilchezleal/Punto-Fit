@@ -111,6 +111,7 @@ async function loadStats() {
     document.querySelector('[data-stat="lowstock"]') && (document.querySelector('[data-stat="lowstock"]').textContent = lowStock);
 
     await renderSalesChart();
+    await loadBestSellingProduct();
 }
 
 // ── REGRESIÓN LINEAL Y CHART.JS ─────────────────────────
@@ -135,54 +136,78 @@ function calculateLinearRegression(dataPairs) {
 
 async function renderSalesChart() {
     const canvas = document.getElementById('salesChart');
+    const emptyState = document.getElementById('salesChartEmpty');
     if (!canvas) return;
 
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    
+    const DAYS = 14;
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() - (DAYS - 1));
+
     const { data: pedidos } = await supabase
         .from('pedidos')
         .select('fecha, total')
         .eq('estado', 'completado')
-        .gte('fecha', thirtyDaysAgo.toISOString())
+        .gte('fecha', start.toISOString())
         .order('fecha', { ascending: true });
 
-    if (!pedidos || pedidos.length === 0) return;
-
-    const dailyMap = {};
-    pedidos.forEach(p => {
-        const dateStr = new Date(p.fecha).toLocaleDateString('es-VE', { month: 'short', day: 'numeric' });
-        dailyMap[dateStr] = (dailyMap[dateStr] || 0) + Number(p.total);
+    // Línea de tiempo continua: un valor por día (aunque sea 0), para que las
+    // barras queden espaciadas por fecha real y no solo por "días con ventas".
+    const dailyTotals = new Map();
+    for (let i = 0; i < DAYS; i++) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        const key = d.toLocaleDateString('es-VE', { day: '2-digit', month: 'short' });
+        dailyTotals.set(key, 0);
+    }
+    (pedidos || []).forEach(p => {
+        const key = new Date(p.fecha).toLocaleDateString('es-VE', { day: '2-digit', month: 'short' });
+        if (dailyTotals.has(key)) {
+            dailyTotals.set(key, dailyTotals.get(key) + Number(p.total));
+        }
     });
 
-    const labels = Object.keys(dailyMap);
-    const dataPoints = Object.values(dailyMap);
+    const labels = [...dailyTotals.keys()];
+    const dataPoints = [...dailyTotals.values()];
+    const totalVentas = dataPoints.reduce((a, b) => a + b, 0);
+
+    if (salesChartInstance) { salesChartInstance.destroy(); salesChartInstance = null; }
+
+    if (!totalVentas) {
+        canvas.classList.add('hidden');
+        emptyState?.classList.remove('hidden');
+        return;
+    }
+    canvas.classList.remove('hidden');
+    emptyState?.classList.add('hidden');
 
     const regressionData = dataPoints.map((y, x) => [x, y]);
     const { m, b } = calculateLinearRegression(regressionData);
-    const trendline = labels.map((_, x) => m * x + b);
-
-    if (salesChartInstance) salesChartInstance.destroy();
+    const trendline = labels.map((_, x) => Math.max(0, m * x + b));
 
     salesChartInstance = new Chart(canvas, {
         type: 'bar',
         data: {
-            labels: labels,
+            labels,
             datasets: [
                 {
-                    label: 'Ventas Reales ($)',
+                    label: 'Ventas reales ($)',
                     data: dataPoints,
-                    backgroundColor: 'rgba(0, 48, 135, 0.7)',
-                    borderRadius: 4
+                    backgroundColor: 'rgba(220, 38, 38, 0.75)',
+                    hoverBackgroundColor: 'rgba(220, 38, 38, 0.9)',
+                    borderRadius: 6,
+                    maxBarThickness: 36
                 },
                 {
-                    label: 'Tendencia (Regresión)',
+                    label: 'Tendencia (regresión lineal)',
                     data: trendline,
                     type: 'line',
-                    borderColor: '#FFB700',
+                    borderColor: '#111827',
+                    backgroundColor: 'transparent',
                     borderWidth: 2,
-                    borderDash: [5, 5],
+                    borderDash: [6, 4],
                     pointRadius: 0,
+                    tension: 0.3,
                     fill: false
                 }
             ]
@@ -190,11 +215,71 @@ async function renderSalesChart() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    align: 'start',
+                    labels: { usePointStyle: true, boxWidth: 8, font: { size: 12 } }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => `${ctx.dataset.label}: $${ctx.parsed.y.toFixed(2)}`
+                    }
+                }
+            },
             scales: {
-                y: { beginAtZero: true }
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: (v) => `$${v}` },
+                    grid: { color: 'rgba(0,0,0,0.05)' }
+                },
+                x: {
+                    grid: { display: false }
+                }
             }
         }
     });
+}
+
+// ── PRODUCTO MÁS VENDIDO ─────────────────────────────────
+async function loadBestSellingProduct() {
+    const el = document.getElementById('stat-best-seller');
+    const subEl = document.getElementById('stat-best-seller-sub');
+    if (!el) return;
+
+    const { data: pedidos, error } = await supabase
+        .from('pedidos')
+        .select('items')
+        .eq('estado', 'completado');
+
+    if (error || !pedidos || !pedidos.length) {
+        el.textContent = '—';
+        if (subEl) subEl.textContent = 'Aún sin ventas';
+        return;
+    }
+
+    const unidadesPorProducto = {};
+    pedidos.forEach(p => {
+        const items = Array.isArray(p.items) ? p.items : [];
+        items.forEach(item => {
+            const key = item.name || 'Producto sin nombre';
+            unidadesPorProducto[key] = (unidadesPorProducto[key] || 0) + Number(item.quantity || 0);
+        });
+    });
+
+    const entries = Object.entries(unidadesPorProducto);
+    if (!entries.length) {
+        el.textContent = '—';
+        if (subEl) subEl.textContent = 'Aún sin ventas';
+        return;
+    }
+
+    entries.sort((a, b) => b[1] - a[1]);
+    const [nombre, unidades] = entries[0];
+
+    el.textContent = nombre;
+    if (subEl) subEl.textContent = `${unidades} unidad${unidades !== 1 ? 'es' : ''} vendida${unidades !== 1 ? 's' : ''}`;
 }
 
 // ── CARGA DE PRODUCTOS DESDE SUPABASE ────────────────────
@@ -386,6 +471,21 @@ async function renderClientsTable() {
         </tr>
     `).join('');
 }
+
+// ── ACTUALIZAR MANUALMENTE (sin recargar la página) ──────
+window.refreshPedidos = async function (event) {
+    const btn = event?.currentTarget;
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
+    await renderOrdersTable();
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar'; }
+};
+
+window.refreshClientes = async function (event) {
+    const btn = event?.currentTarget;
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...'; }
+    await renderClientsTable();
+    if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar'; }
+};
 
 // ── FORMULARIO DE PRODUCTO ───────────────────────────────
 window.openProductForm = function (productId = null) {
