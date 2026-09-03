@@ -547,46 +547,13 @@
             }
         }
     </script>
-    <!-- 1. IMPORTAR PRIMERO LOS ESTILOS DEL WIDGET -->
-<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-
-<!-- 2. APLICAR NUESTROS COLORES FORZADOS (!important) -->
-<style>
-    :root {
-        /* Color principal (Rojo PuntoFit) para el botón, encabezado y burbujas del usuario */
-        --chat--color-primary: #dc2626 !important; 
-        --chat--color-primary-shade-50: #b91c1c !important; 
-        --chat--color-primary-shade-100: #991b1b !important;
-        
-        /* Color secundario */
-        --chat--color-secondary: #030712 !important; 
-        --chat--color-secondary-shade-50: #111827 !important;
-        
-        /* Tipografía de tu página web */
-        --chat--font-family: 'Inter', sans-serif !important;
-    }
-</style>
-
-<!-- 3. INICIALIZAR EL CHAT CON LOS TEXTOS EN ESPAÑOL -->
+   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 <script type="module">
-    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    createChat({
-        webhookUrl: 'https://rvilchezleal.app.n8n.cloud/webhook/0ccc1c0c-2cac-446d-91fd-3de328a10b9d/chat',
-        initialMessages: [
-            '¡Hola! 💪 Bienvenido a PuntoFit.',
-            'Soy tu asesor virtual. ¿Qué objetivo físico tienes o qué suplemento buscas hoy?'
-        ],
-        i18n: {
-            en: {
-                title: 'Asesor PuntoFit',
-                subtitle: 'Entrena sin límites - Atención 24/7',
-                footer: '',
-                getStarted: 'Iniciar conversación',
-                inputPlaceholder: 'Escribe tu pregunta aquí...',
-            }
-        }
-    });
+	createChat({
+		webhookUrl: 'https://rvilchezleal.app.n8n.cloud/webhook/0ccc1c0c-2cac-446d-91fd-3de328a10b9d/chat'
+	});
 </script>
 </body>
 </html>

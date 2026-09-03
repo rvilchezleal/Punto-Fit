@@ -1317,3 +1317,43 @@ body.dark-mode footer.bg-gray-900 {
     resize: vertical;
     min-height: 80px;
 }
+
+:root {
+	/* Colores de Marca (Rojo PuntoFit) */
+	--chat--color--primary: #dc2626;
+	--chat--color--primary-shade-50: #b91c1c;
+	--chat--color--primary--shade-100: #991b1b;
+	--chat--color--secondary: #dc2626;
+	--chat--color-secondary-shade-50: #b91c1c;
+	--chat--color-white: #ffffff;
+	--chat--color-light: #f9fafb;
+	--chat--color-light-shade-50: #e5e7eb;
+	--chat--color-light-shade-100: #d1d5db;
+	--chat--color-medium: #9ca3af;
+	--chat--color-dark: #090d16; /* Gris oscuro para el encabezado */
+	--chat--color-disabled: #d1d5db;
+	--chat--color-typing: #374151;
+
+	/* Tipografía y bordes */
+	--chat--border-radius: 0.75rem;
+	--chat--font-family: 'Inter', sans-serif;
+
+	/* Encabezado del Chat */
+	--chat--header--background: var(--chat--color-dark);
+	--chat--header--color: var(--chat--color-white);
+
+	/* Mensajes */
+	--chat--message--user--background: var(--chat--color--primary);
+	--chat--message--user--color: var(--chat--color-white);
+	--chat--message--bot--background: #ffffff;
+	--chat--message--bot--color: #1f2937;
+
+	/* Botón Flotante Redondo */
+	--chat--toggle--background: var(--chat--color--primary);
+	--chat--toggle--hover--background: var(--chat--color--primary-shade-50);
+	--chat--toggle--active--background: var(--chat--color--primary--shade-100);
+	--chat--toggle--color: var(--chat--color-white);
+
+	/* Botón de enviar */
+	--chat--input--send--button--color: var(--chat--color--primary);
+}
