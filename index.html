@@ -547,46 +547,36 @@
             }
         }
     </script>
-    <!-- 1. ESTILOS PERSONALIZADOS PARA EL CHAT (Colores y fuente de PuntoFit) -->
+    <!-- 1. IMPORTAR PRIMERO LOS ESTILOS DEL WIDGET -->
+<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+<!-- 2. APLICAR NUESTROS COLORES FORZADOS (!important) -->
 <style>
     :root {
-        /* Color principal (Rojo PuntoFit) para el botón, encabezado y burbujas del bot */
-        --chat--color-primary: #dc2626; 
-        --chat--color-primary-shade-50: #b91c1c; /* Color hover del botón */
-        --chat--color-primary-shade-100: #991b1b;
+        /* Color principal (Rojo PuntoFit) para el botón, encabezado y burbujas del usuario */
+        --chat--color-primary: #dc2626 !important; 
+        --chat--color-primary-shade-50: #b91c1c !important; 
+        --chat--color-primary-shade-100: #991b1b !important;
         
-        /* Color secundario (Gris oscuro de tu navbar/footer) para fondos oscuros */
-        --chat--color-secondary: #030712; 
-        --chat--color-secondary-shade-50: #111827;
+        /* Color secundario */
+        --chat--color-secondary: #030712 !important; 
+        --chat--color-secondary-shade-50: #111827 !important;
         
-        /* Tipografía para que coincida con tu página web */
-        --chat--font-family: 'Inter', sans-serif;
-        
-        /* Bordes un poco más redondeados para que combine con tus modales */
-        --chat--border-radius: 0.75rem; 
-        
-        /* Ajustar la sombra para que se integre mejor */
-        --chat--shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+        /* Tipografía de tu página web */
+        --chat--font-family: 'Inter', sans-serif !important;
     }
 </style>
 
-<!-- 2. IMPORTACIÓN DE ESTILOS DEL WIDGET -->
-<link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-
-<!-- 3. CONFIGURACIÓN DEL SCRIPT DEL WIDGET -->
+<!-- 3. INICIALIZAR EL CHAT CON LOS TEXTOS EN ESPAÑOL -->
 <script type="module">
     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
     createChat({
         webhookUrl: 'https://rvilchezleal.app.n8n.cloud/webhook/0ccc1c0c-2cac-446d-91fd-3de328a10b9d/chat',
-        
-        /* Textos iniciales que envía el bot al abrir el chat */
         initialMessages: [
             '¡Hola! 💪 Bienvenido a PuntoFit.',
             'Soy tu asesor virtual. ¿Qué objetivo físico tienes o qué suplemento buscas hoy?'
         ],
-        
-        /* Personalización de la interfaz (Títulos y placeholders) */
         i18n: {
             en: {
                 title: 'Asesor PuntoFit',
