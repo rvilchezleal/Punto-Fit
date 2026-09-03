@@ -547,13 +547,52 @@
             }
         }
     </script>
-   <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
-<script type="module">
-	import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-	createChat({
-		webhookUrl: 'https://rvilchezleal.app.n8n.cloud/webhook/0ccc1c0c-2cac-446d-91fd-3de328a10b9d/chat'
-	});
-</script>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+
+    <style>
+        
+        :root {
+            --chat--color--primary: #dc2626 !important;
+            --chat--color--primary-shade-50: #b91c1c !important;
+            --chat--color--primary--shade-100: #991b1b !important;
+            --chat--color-dark: #030712 !important;
+            --chat--header--background: #dc2626 !important; /* Cabecera Roja PuntoFit */
+            --chat--header--color: #ffffff !important;
+            --chat--toggle--background: #dc2626 !important;
+            --chat--message--user--background: #dc2626 !important;
+            --chat--font-family: 'Inter', sans-serif !important;
+        }
+
+        [class*="header"] {
+            background: #dc2626 !important;
+            background-color: #dc2626 !important;
+        }
+
+        [class*="toggle"] {
+            background-color: #dc2626 !important;
+        }
+    </style>
+
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'https://rvilchezleal.app.n8n.cloud/webhook/0ccc1c0c-2cac-446d-91fd-3de328a10b9d/chat',
+            initialMessages: [
+                '¡Hola! 💪 Bienvenido a PuntoFit.',
+                'Soy tu asesor virtual. ¿Qué objetivo físico tienes o qué suplemento buscas hoy?'
+            ],
+            i18n: {
+                en: {
+                    title: 'Asesor PuntoFit',
+                    subtitle: 'Entrena sin límites - Atención 24/7',
+                    footer: '',
+                    getStarted: 'Iniciar conversación',
+                    inputPlaceholder: 'Escribe tu pregunta aquí...',
+                }
+            }
+        });
+    </script>
 </body>
 </html>
